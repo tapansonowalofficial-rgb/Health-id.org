@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.env
+Disallow: /secrets/
+
+Sitemap: https://www.health-id.in/sitemap.xml
+
+# Neural Health ID — www.health-id.in
+# India's Most Secure AI-Powered Health Identity Platform

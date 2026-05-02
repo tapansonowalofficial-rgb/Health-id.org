@@ -1,0 +1,893 @@
+import { useState, useEffect, useRef, useCallback } from "react";
+
+/* ═══════════════════════════════════════════════════════════
+   NEURAL HEALTH ID — 3D FUTURISTIC AI INTELLIGENCE SYSTEM
+   ═══════════════════════════════════════════════════════════ */
+
+const C = {
+  void: "#00000f",
+  deep: "#020818",
+  card: "rgba(2,15,40,0.85)",
+  cardBright: "rgba(5,25,65,0.9)",
+  cyan: "#00f5ff",
+  cyanDim: "rgba(0,245,255,0.12)",
+  cyanGlow: "rgba(0,245,255,0.4)",
+  neon: "#00ff9d",
+  neonDim: "rgba(0,255,157,0.12)",
+  plasma: "#bf5fff",
+  plasmaDim: "rgba(191,95,255,0.15)",
+  amber: "#ffb300",
+  red: "#ff3366",
+  text: "#cce8ff",
+  textDim: "#4a7fa0",
+  grid: "rgba(0,245,255,0.04)",
+  border: "rgba(0,245,255,0.15)",
+  borderBright: "rgba(0,245,255,0.4)",
+};
+
+/* ── Neural Particle Canvas ── */
+function NeuralCanvas() {
+  const ref = useRef();
+  useEffect(() => {
+    const c = ref.current; if (!c) return;
+    const ctx = c.getContext("2d");
+    let W, H, nodes = [], frame;
+    const resize = () => {
+      W = c.width = c.offsetWidth;
+      H = c.height = c.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    for (let i = 0; i < 55; i++) nodes.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      pulse: Math.random() * Math.PI * 2,
+      type: Math.random() > 0.7 ? "plasma" : "cyan",
+    });
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy; n.pulse += 0.02;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      });
+      nodes.forEach((a, i) => nodes.slice(i + 1).forEach(b => {
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 130) {
+          const alpha = (1 - d / 130) * 0.35;
+          const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+          g.addColorStop(0, `rgba(0,245,255,${alpha})`);
+          g.addColorStop(1, `rgba(191,95,255,${alpha * 0.5})`);
+          ctx.strokeStyle = g; ctx.lineWidth = 0.6;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }));
+      nodes.forEach(n => {
+        const glow = Math.sin(n.pulse) * 0.5 + 0.5;
+        const color = n.type === "plasma" ? "191,95,255" : "0,245,255";
+        const gr = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 4);
+        gr.addColorStop(0, `rgba(${color},${0.9 * glow})`);
+        gr.addColorStop(1, `rgba(${color},0)`);
+        ctx.fillStyle = gr;
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = `rgba(${color},1)`;
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+      });
+      frame = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("resize", resize); };
+  }, []);
+  return <canvas ref={ref} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", zIndex: 0, opacity: 0.6 }} />;
+}
+
+/* ── Holographic Grid Background ── */
+function HoloGrid() {
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden", pointerEvents: "none" }}>
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: `
+          linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: "40px 40px",
+        maskImage: "radial-gradient(ellipse at center, black 20%, transparent 80%)",
+      }} />
+      <div style={{
+        position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)",
+        width: "600px", height: "600px", borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(0,245,255,0.04) 0%, transparent 70%)",
+        animation: "breathe 4s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "absolute", bottom: "-200px", right: "-100px",
+        width: "500px", height: "500px", borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(191,95,255,0.06) 0%, transparent 70%)",
+        animation: "breathe 6s ease-in-out infinite reverse",
+      }} />
+      <style>{`
+        @keyframes breathe { 0%,100%{transform:translateX(-50%) scale(1);opacity:0.5} 50%{transform:translateX(-50%) scale(1.15);opacity:1} }
+        @keyframes scanline { 0%{top:-2px} 100%{top:100%} }
+        @keyframes spin3d { 0%{transform:rotateY(0deg) rotateX(15deg)} 100%{transform:rotateY(360deg) rotateX(15deg)} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
+        @keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes glitch { 0%,95%,100%{transform:none;opacity:1} 96%{transform:skewX(5deg);opacity:0.8} 97%{transform:skewX(-3deg)} 98%{transform:none} }
+        @keyframes ripple { 0%{transform:scale(0.8);opacity:1} 100%{transform:scale(2.5);opacity:0} }
+        @keyframes dataflow { 0%{stroke-dashoffset:200} 100%{stroke-dashoffset:0} }
+        @keyframes orbitRing { 0%{transform:rotateZ(0deg) rotateX(70deg)} 100%{transform:rotateZ(360deg) rotateX(70deg)} }
+        @keyframes typing { from{width:0} to{width:100%} }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes waveBar { 0%,100%{transform:scaleY(0.3)} 50%{transform:scaleY(1)} }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap');
+      `}</style>
+    </div>
+  );
+}
+
+/* ── 3D Rotating Brain ── */
+function NeuralBrain({ size = 90 }) {
+  const rings = [
+    { r: size * 0.42, tilt: "rotateX(80deg)", color: C.cyan, speed: "8s" },
+    { r: size * 0.36, tilt: "rotateX(50deg) rotateZ(60deg)", color: C.plasma, speed: "12s" },
+    { r: size * 0.30, tilt: "rotateX(20deg) rotateZ(120deg)", color: C.neon, speed: "6s" },
+  ];
+  return (
+    <div style={{ width: size, height: size, position: "relative", perspective: "600px", flexShrink: 0 }}>
+      <div style={{
+        position: "absolute", inset: "18%",
+        background: `radial-gradient(ellipse at 35% 35%, rgba(0,245,255,0.5), rgba(191,95,255,0.3) 60%, transparent)`,
+        borderRadius: "50%",
+        boxShadow: `0 0 ${size * 0.3}px ${C.cyanGlow}, inset 0 0 ${size * 0.2}px rgba(191,95,255,0.3)`,
+        animation: "pulse 3s ease-in-out infinite",
+      }} />
+      {rings.map((ring, i) => (
+        <div key={i} style={{
+          position: "absolute", inset: 0,
+          transformStyle: "preserve-3d",
+          animation: `orbitRing ${ring.speed} linear infinite ${i % 2 ? "reverse" : ""}`,
+        }}>
+          <svg viewBox={`0 0 ${size} ${size}`} style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}>
+            <ellipse cx={size / 2} cy={size / 2} rx={ring.r} ry={ring.r * 0.22}
+              fill="none" stroke={ring.color} strokeWidth="1.2" opacity="0.7"
+              strokeDasharray="4 3" />
+          </svg>
+        </div>
+      ))}
+      <div style={{
+        position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: size * 0.28, filter: `drop-shadow(0 0 ${size * 0.1}px ${C.cyan})`,
+        animation: "float 4s ease-in-out infinite",
+      }}>🧠</div>
+    </div>
+  );
+}
+
+/* ── Holographic Card ── */
+function HoloCard({ children, style = {}, accent = C.cyan, glow = false, animate = false }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: C.card,
+        border: `1px solid ${hover || glow ? accent : C.border}`,
+        borderRadius: 16,
+        padding: "18px 20px",
+        position: "relative",
+        overflow: "hidden",
+        transition: "all 0.3s cubic-bezier(0.23,1,0.32,1)",
+        boxShadow: hover || glow
+          ? `0 0 30px ${accent}33, 0 0 60px ${accent}11, inset 0 1px 0 ${accent}22`
+          : `0 4px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)`,
+        transform: hover ? "translateY(-2px)" : "none",
+        animation: animate ? "slideIn 0.5s ease forwards" : "none",
+        backdropFilter: "blur(20px)",
+        ...style,
+      }}
+    >
+      {/* Corner accents */}
+      {[["0","0","right","bottom"],["auto","0","left","bottom"],["0","auto","right","top"],["auto","auto","left","top"]].map(([t,b,right,left],i)=>
+        <div key={i} style={{
+          position:"absolute", top:t?0:undefined, bottom:b?0:undefined,
+          right:right==="right"?0:undefined, left:left==="left"?0:undefined,
+          width:12, height:12,
+          borderTop: (t==="0") ? `2px solid ${accent}` : undefined,
+          borderBottom: (b==="0") ? `2px solid ${accent}` : undefined,
+          borderRight: (right==="right") ? `2px solid ${accent}` : undefined,
+          borderLeft: (left==="left") ? `2px solid ${accent}` : undefined,
+          opacity: 0.7,
+        }}/>
+      )}
+      {/* Scanline */}
+      {hover && <div style={{
+        position:"absolute",left:0,right:0,height:2,
+        background:`linear-gradient(90deg,transparent,${accent}66,transparent)`,
+        animation:"scanline 1.5s linear infinite",
+        pointerEvents:"none",
+      }}/>}
+      {children}
+    </div>
+  );
+}
+
+/* ── AI Chat Component ── */
+function AIBrain() {
+  const [messages, setMessages] = useState([
+    { role: "assistant", text: "Neural Health AI online. I have analyzed your complete health profile. Your vitals are stable. How can I assist you today?", ts: "NOW" }
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const scrollRef = useRef();
+
+  const SYSTEM = `You are NEURAL — an advanced AI health intelligence system integrated into a futuristic Health ID app. You are a medical AI assistant with access to the user's health profile:
+- Name: Alex Johnson, DOB: Jul 14 1990, Blood: O+
+- Conditions: Mild Hypertension
+- Allergies: Penicillin, Peanuts
+- Medications: Lisinopril 10mg
+- Recent labs: CBC normal, Lipid Panel under review
+- Vitals: HR 72bpm, BP 118/76, SpO2 98%, Sugar 95mg/dL
+
+Speak in a futuristic, precise, intelligent tone. Give real medical insights but always recommend consulting a doctor for diagnosis. Keep responses concise (2-4 sentences). Use technical but clear language. Never start with "I". Address the user's health data when relevant.`;
+
+  const send = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = { role: "user", text: input, ts: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) };
+    setMessages(m => [...m, userMsg]);
+    setInput("");
+    setLoading(true);
+    setTyping(true);
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 300,
+          system: SYSTEM,
+          messages: [...messages.filter(m => m.role !== "system"), userMsg].map(m => ({ role: m.role, content: m.text })),
+        }),
+      });
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || "Neural link disrupted. Reconnecting...";
+      setTyping(false);
+      setMessages(m => [...m, { role: "assistant", text: reply, ts: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }]);
+    } catch {
+      setTyping(false);
+      setMessages(m => [...m, { role: "assistant", text: "Neural link disrupted. Check connection and retry.", ts: "ERR" }]);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { scrollRef.current?.scrollTo({ top: 9999, behavior: "smooth" }); }, [messages, typing]);
+
+  const suggestions = ["Analyze my blood pressure trend", "What does my lipid panel mean?", "Am I at risk for anything?", "Medication interactions?"];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, height: "100%" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <NeuralBrain size={70} />
+        <div>
+          <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 18, fontWeight: 900, color: C.cyan, letterSpacing: "0.1em" }}>NEURAL AI</div>
+          <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.neon }}>● INTELLIGENCE CORE ACTIVE</div>
+          <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim, marginTop: 2 }}>HEALTH ANALYSIS · PREDICTIVE · REAL-TIME</div>
+        </div>
+      </div>
+
+      {/* Suggestions */}
+      <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
+        {suggestions.map(s => (
+          <button key={s} onClick={() => setInput(s)} style={{
+            whiteSpace: "nowrap", padding: "6px 14px", borderRadius: 20,
+            border: `1px solid ${C.border}`, background: C.cyanDim,
+            color: C.cyan, fontSize: 11, cursor: "pointer", fontFamily: "'Share Tech Mono', monospace",
+            transition: "all 0.2s",
+          }}>{s}</button>
+        ))}
+      </div>
+
+      {/* Messages */}
+      <div ref={scrollRef} style={{
+        flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 12,
+        maxHeight: 380, paddingRight: 4,
+      }}>
+        {messages.map((m, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: m.role === "user" ? "flex-end" : "flex-start" }}>
+            {m.role === "assistant" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.neon, boxShadow: `0 0 6px ${C.neon}` }} />
+                <span style={{ fontFamily: "'Orbitron', monospace", fontSize: 9, color: C.neon, letterSpacing: "0.1em" }}>NEURAL · {m.ts}</span>
+              </div>
+            )}
+            <div style={{
+              maxWidth: "85%", padding: "12px 16px", borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "4px 16px 16px 16px",
+              background: m.role === "user" ? `linear-gradient(135deg, ${C.plasma}33, ${C.cyan}22)` : C.cardBright,
+              border: `1px solid ${m.role === "user" ? C.plasma + "44" : C.border}`,
+              color: C.text, fontSize: 13, lineHeight: 1.6,
+              fontFamily: m.role === "assistant" ? "'Rajdhani', sans-serif" : "'Share Tech Mono', monospace",
+              boxShadow: m.role === "assistant" ? `0 0 20px ${C.cyan}11` : "none",
+            }}>{m.text}</div>
+            {m.role === "user" && (
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 9, color: C.textDim, marginTop: 4 }}>YOU · {m.ts}</div>
+            )}
+          </div>
+        ))}
+        {typing && (
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px" }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.neon, boxShadow: `0 0 6px ${C.neon}` }} />
+            <div style={{ display: "flex", gap: 4 }}>
+              {[0, 1, 2].map(i => (
+                <div key={i} style={{
+                  width: 6, height: 6, borderRadius: "50%", background: C.cyan,
+                  animation: `waveBar 1s ease-in-out infinite`,
+                  animationDelay: `${i * 0.15}s`,
+                }} />
+              ))}
+            </div>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>Neural processing...</span>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <div style={{ flex: 1, position: "relative" }}>
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && send()}
+            placeholder="Query neural health intelligence..."
+            style={{
+              width: "100%", padding: "12px 16px", borderRadius: 12,
+              background: "rgba(0,10,30,0.8)", border: `1px solid ${C.border}`,
+              color: C.text, fontSize: 13, outline: "none", boxSizing: "border-box",
+              fontFamily: "'Share Tech Mono', monospace",
+              transition: "border-color 0.2s",
+            }}
+            onFocus={e => e.target.style.borderColor = C.cyan}
+            onBlur={e => e.target.style.borderColor = C.border}
+          />
+        </div>
+        <button onClick={send} disabled={loading || !input.trim()} style={{
+          width: 44, height: 44, borderRadius: 12, border: "none",
+          background: loading ? C.cyanDim : `linear-gradient(135deg, ${C.cyan}, ${C.neon})`,
+          color: loading ? C.textDim : "#000",
+          fontSize: 18, cursor: loading ? "not-allowed" : "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: loading ? "none" : `0 0 20px ${C.cyanGlow}`,
+          transition: "all 0.2s", flexShrink: 0,
+        }}>
+          {loading ? <span style={{ fontSize: 14, animation: "pulse 1s infinite" }}>⟳</span> : "⚡"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ── QR Generator ── */
+function RealQR({ data, size = 150 }) {
+  const cells = [];
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) hash = ((hash << 5) - hash) + data.charCodeAt(i);
+  const grid = 21;
+  const cell = size / grid;
+  const pat = Array.from({ length: grid }, (_, r) =>
+    Array.from({ length: grid }, (_, c) => {
+      if ((r < 7 && c < 7) || (r < 7 && c > grid - 8) || (r > grid - 8 && c < 7)) return 1;
+      if ((r === 7 && c < 8) || (r < 8 && c === 7) || (r === 7 && c > grid - 9) || (r < 8 && c === grid - 8) || (r > grid - 9 && c === 7) || (r === grid - 8 && c < 8)) return 1;
+      if (r === 6 && c > 7 && c < grid - 8) return c % 2 === 0 ? 1 : 0;
+      if (c === 6 && r > 7 && r < grid - 8) return r % 2 === 0 ? 1 : 0;
+      const seed = (r * grid + c + hash) % 7;
+      return seed < 3 ? 1 : 0;
+    })
+  );
+  pat.forEach((row, r) => row.forEach((v, c) => {
+    if (v) cells.push(<rect key={`${r}-${c}`} x={c * cell} y={r * cell} width={cell - 0.5} height={cell - 0.5} fill={C.cyan} rx={0.5} />);
+  }));
+  return (
+    <svg width={size} height={size} style={{ borderRadius: 8 }}>
+      <rect width={size} height={size} fill={C.deep} rx={8} />
+      {cells}
+      <rect x={size * 0.38} y={size * 0.38} width={size * 0.24} height={size * 0.24} rx={4} fill={C.deep} />
+      <text x={size * 0.5} y={size * 0.54} textAnchor="middle" fontSize={size * 0.1} fill={C.cyan} fontFamily="monospace">🧠</text>
+    </svg>
+  );
+}
+
+/* ── Vitals Chart ── */
+function VitalChart({ data, color, label }) {
+  const max = Math.max(...data), min = Math.min(...data);
+  const H = 48, W = 120;
+  const pts = data.map((v, i) => `${(i / (data.length - 1)) * W},${H - ((v - min) / (max - min + 1)) * H * 0.85 - 4}`).join(" ");
+  return (
+    <div>
+      <svg width={W} height={H}>
+        <defs>
+          <linearGradient id={`g${label}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <polyline points={`0,${H} ${pts} ${W},${H}`} fill={`url(#g${label})`} stroke="none" />
+        <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+        {data.map((v, i) => i === data.length - 1 && (
+          <circle key={i} cx={(i / (data.length - 1)) * W} cy={H - ((v - min) / (max - min + 1)) * H * 0.85 - 4}
+            r={3} fill={color} style={{ filter: `drop-shadow(0 0 4px ${color})` }} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+/* ── Data Screens ── */
+const USER = {
+  name: "Alex Johnson", id: "HID-2024-78421", dob: "Jul 14, 1990",
+  blood: "O+", height: "5'11\"", weight: "175 lbs",
+  allergies: ["Penicillin", "Peanuts"], conditions: ["Mild Hypertension"],
+  emergency: { name: "Sarah Johnson", rel: "Spouse", phone: "+1 555 0192" },
+  insurance: { provider: "BlueCross Shield", policy: "BCX-990234", group: "GRP-441" },
+};
+
+const VITALS_DATA = [
+  { label: "Heart Rate", value: 72, unit: "bpm", icon: "❤️", color: C.red, history: [68, 74, 71, 76, 72, 70, 72], status: "OPTIMAL" },
+  { label: "Blood Pressure", value: "118/76", unit: "mmHg", icon: "🩸", color: C.cyan, history: [125, 120, 122, 118, 119, 121, 118], status: "NORMAL" },
+  { label: "SpO₂", value: 98, unit: "%", icon: "💨", color: C.neon, history: [97, 98, 97, 99, 98, 97, 98], status: "OPTIMAL" },
+  { label: "Blood Sugar", value: 95, unit: "mg/dL", icon: "⚡", color: C.amber, history: [90, 102, 95, 88, 97, 94, 95], status: "NORMAL" },
+];
+
+const RECORDS = [
+  { id: 1, icon: "🧪", title: "Complete Blood Count", type: "Lab", date: "Nov 15, 2024", doc: "Dr. Patel", status: "NORMAL", color: C.neon },
+  { id: 2, icon: "🩻", title: "Chest X-Ray", type: "Imaging", date: "Sep 3, 2024", doc: "Dr. Chen", status: "CLEAR", color: C.cyan },
+  { id: 3, icon: "💊", title: "Lisinopril 10mg", type: "Rx", date: "Oct 20, 2024", doc: "Dr. Martins", status: "ACTIVE", color: C.amber },
+  { id: 4, icon: "🧫", title: "Lipid Panel", type: "Lab", date: "Nov 15, 2024", doc: "Dr. Patel", status: "REVIEW", color: "#ff9500" },
+  { id: 5, icon: "📋", title: "Annual Physical", type: "Exam", date: "Aug 30, 2024", doc: "Dr. Patel", status: "COMPLETE", color: C.neon },
+  { id: 6, icon: "🫀", title: "ECG Report", type: "Cardio", date: "Jul 12, 2024", doc: "Dr. Martins", status: "NORMAL", color: C.red },
+];
+
+const DOCTORS = [
+  { id: 1, init: "AP", name: "Dr. Aisha Patel", spec: "Primary Care", dist: "0.8 mi", rating: 4.9, avail: "Today 3:00 PM", exp: "15 yrs", color: C.neon },
+  { id: 2, init: "JC", name: "Dr. James Chen", spec: "Radiology", dist: "1.2 mi", rating: 4.7, avail: "Tomorrow 10 AM", exp: "12 yrs", color: C.cyan },
+  { id: 3, init: "LM", name: "Dr. Lucia Martins", spec: "Cardiology", dist: "2.1 mi", rating: 4.8, avail: "Mon 2:00 PM", exp: "20 yrs", color: C.plasma },
+  { id: 4, init: "OH", name: "Dr. Omar Hassan", spec: "Neurology", dist: "3.4 mi", rating: 4.6, avail: "Tue 11 AM", exp: "18 yrs", color: C.amber },
+];
+
+const APPTS = [
+  { id: 1, doc: "Dr. Aisha Patel", spec: "Primary Care", date: "Dec 5, 2024", time: "3:00 PM", status: "CONFIRMED", type: "Follow-up", color: C.neon },
+  { id: 2, doc: "Dr. Lucia Martins", spec: "Cardiology", date: "Dec 12, 2024", time: "10:30 AM", status: "PENDING", type: "Checkup", color: C.amber },
+  { id: 3, doc: "Dr. James Chen", spec: "Radiology", date: "Nov 28, 2024", time: "2:00 PM", status: "DONE", type: "Scan", color: C.textDim },
+];
+
+/* ── Label ── */
+function SectionLabel({ text, icon }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+      <div style={{ width: 3, height: 18, background: `linear-gradient(${C.cyan}, ${C.neon})`, borderRadius: 2 }} />
+      <span style={{ fontSize: 14 }}>{icon}</span>
+      <span style={{ fontFamily: "'Orbitron', monospace", fontSize: 12, fontWeight: 700, color: C.cyan, letterSpacing: "0.15em", textTransform: "uppercase" }}>{text}</span>
+      <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${C.border}, transparent)` }} />
+    </div>
+  );
+}
+
+function StatusBadge({ label, color }) {
+  return (
+    <span style={{
+      padding: "3px 10px", borderRadius: 20, fontSize: 9, fontWeight: 700,
+      background: `${color}18`, color, border: `1px solid ${color}44`,
+      fontFamily: "'Orbitron', monospace", letterSpacing: "0.1em",
+    }}>{label}</span>
+  );
+}
+
+/* ══════════════ SCREENS ══════════════ */
+
+function HomeScreen() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => { const t = setInterval(() => setTick(x => x + 1), 1000); return () => clearInterval(t); }, []);
+  const now = new Date();
+  const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {/* Hero Header */}
+      <HoloCard glow accent={C.cyan} style={{ background: "linear-gradient(135deg, rgba(0,30,60,0.95), rgba(0,10,30,0.95))" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.neon, letterSpacing: "0.2em", marginBottom: 6 }}>● NEURAL HEALTH SYSTEM ONLINE</div>
+            <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 22, fontWeight: 900, color: C.text, letterSpacing: "0.05em", animation: "glitch 8s infinite" }}>{USER.name}</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 13, color: C.cyan, marginTop: 4 }}>{USER.id}</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim, marginTop: 8 }}>{time}</div>
+          </div>
+          <NeuralBrain size={85} />
+        </div>
+
+        {/* ID Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
+          {[
+            { l: "BLOOD", v: USER.blood, color: C.red },
+            { l: "HEIGHT", v: USER.height, color: C.cyan },
+            { l: "WEIGHT", v: USER.weight, color: C.neon },
+            { l: "AGE", v: "34", color: C.plasma },
+          ].map(item => (
+            <div key={item.l} style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 14, fontWeight: 900, color: item.color, textShadow: `0 0 10px ${item.color}` }}>{item.v}</div>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 8, color: C.textDim, marginTop: 2 }}>{item.l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Allergy alert */}
+        <div style={{ marginTop: 14, padding: "8px 12px", background: `${C.red}15`, border: `1px solid ${C.red}33`, borderRadius: 10, display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 14 }}>⚠️</span>
+          <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.red }}>ALLERGIES: {USER.allergies.join(" · ")}</span>
+        </div>
+      </HoloCard>
+
+      {/* Vitals Grid */}
+      <SectionLabel text="Live Vitals" icon="📡" />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        {VITALS_DATA.map(v => (
+          <HoloCard key={v.label} accent={v.color} style={{ padding: 14 }}>
+            <div style={{ display: "flex", justify: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+              <span style={{ fontSize: 20 }}>{v.icon}</span>
+              <StatusBadge label={v.status} color={v.color} />
+            </div>
+            <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 20, fontWeight: 900, color: v.color, textShadow: `0 0 15px ${v.color}88`, marginTop: 4 }}>{v.value}</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>{v.unit}</div>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 12, color: C.text, marginTop: 2 }}>{v.label}</div>
+            <VitalChart data={v.history} color={v.color} label={v.label} />
+          </HoloCard>
+        ))}
+      </div>
+
+      {/* Next Appointment */}
+      <SectionLabel text="Next Appointment" icon="📅" />
+      <HoloCard accent={C.neon}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: "50%",
+            background: `linear-gradient(135deg, ${C.neon}33, ${C.cyan}22)`,
+            border: `2px solid ${C.neon}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontFamily: "'Orbitron', monospace", fontSize: 14, fontWeight: 700, color: C.neon,
+          }}>AP</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, color: C.text }}>Dr. Aisha Patel</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>Primary Care · Follow-up</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 14, fontWeight: 700, color: C.cyan }}>DEC 5</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>3:00 PM</div>
+            <StatusBadge label="CONFIRMED" color={C.neon} />
+          </div>
+        </div>
+      </HoloCard>
+
+      {/* Health Score */}
+      <HoloCard accent={C.plasma} style={{ textAlign: "center", padding: 24 }}>
+        <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.15em", marginBottom: 8 }}>AI HEALTH SCORE</div>
+        <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 56, fontWeight: 900, background: `linear-gradient(135deg, ${C.cyan}, ${C.neon})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1 }}>87</div>
+        <div style={{ fontFamily: "'Rajdhani', sans-serif", color: C.neon, fontSize: 14, marginTop: 4 }}>EXCELLENT · TOP 12% OF YOUR AGE GROUP</div>
+        <div style={{ display: "flex", gap: 8, marginTop: 16, justifyContent: "center" }}>
+          {["Cardio","Metabolic","Immunity","Sleep"].map((s,i) => (
+            <div key={s} style={{ textAlign: "center" }}>
+              <div style={{ width: 6, height: 32 * [0.9, 0.75, 0.85, 0.7][i], background: `linear-gradient(${C.cyan}, ${C.neon})`, borderRadius: 3, margin: "0 auto 4px" }} />
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 7, color: C.textDim }}>{s}</div>
+            </div>
+          ))}
+        </div>
+      </HoloCard>
+    </div>
+  );
+}
+
+function RecordsScreen() {
+  const [filter, setFilter] = useState("ALL");
+  const types = ["ALL", "Lab", "Imaging", "Rx", "Exam", "Cardio"];
+  const filtered = filter === "ALL" ? RECORDS : RECORDS.filter(r => r.type === filter);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 20, fontWeight: 900, color: C.cyan, letterSpacing: "0.08em" }}>HEALTH RECORDS</div>
+      <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>ENCRYPTED · HIPAA COMPLIANT · {RECORDS.length} FILES ON CHAIN</div>
+
+      <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
+        {types.map(t => (
+          <button key={t} onClick={() => setFilter(t)} style={{
+            padding: "6px 14px", borderRadius: 8, border: `1px solid ${filter === t ? C.cyan : C.border}`,
+            background: filter === t ? C.cyanDim : "transparent",
+            color: filter === t ? C.cyan : C.textDim,
+            cursor: "pointer", fontSize: 11, fontFamily: "'Orbitron', monospace", letterSpacing: "0.1em", whiteSpace: "nowrap",
+          }}>{t}</button>
+        ))}
+      </div>
+
+      {filtered.map((r, i) => (
+        <HoloCard key={r.id} accent={r.color} animate style={{ padding: 16, animationDelay: `${i * 0.05}s` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: `${r.color}18`, border: `1px solid ${r.color}33`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{r.icon}</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 15, color: C.text }}>{r.title}</div>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim, marginTop: 3 }}>{r.doc} · {r.date}</div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+              <StatusBadge label={r.status} color={r.color} />
+              <StatusBadge label={r.type} color={C.textDim} />
+            </div>
+          </div>
+        </HoloCard>
+      ))}
+    </div>
+  );
+}
+
+function DoctorsScreen() {
+  const [booked, setBooked] = useState([]);
+  const [query, setQuery] = useState("");
+  const filtered = DOCTORS.filter(d => d.name.toLowerCase().includes(query.toLowerCase()) || d.spec.toLowerCase().includes(query.toLowerCase()));
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 20, fontWeight: 900, color: C.cyan, letterSpacing: "0.08em" }}>NEURAL NETWORK</div>
+      <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>AI-MATCHED PHYSICIANS · REAL-TIME AVAILABILITY</div>
+
+      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="⬡  Search by name or specialty..."
+        style={{ padding: "12px 16px", borderRadius: 12, background: "rgba(0,10,30,0.8)", border: `1px solid ${C.border}`, color: C.text, fontSize: 13, outline: "none", fontFamily: "'Share Tech Mono', monospace", width: "100%", boxSizing: "border-box" }}
+        onFocus={e => e.target.style.borderColor = C.cyan} onBlur={e => e.target.style.borderColor = C.border}
+      />
+
+      {filtered.map((d, i) => (
+        <HoloCard key={d.id} accent={d.color} style={{ padding: 16, animationDelay: `${i * 0.08}s` }}>
+          <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+            <div style={{ width: 52, height: 52, borderRadius: "50%", background: `linear-gradient(135deg, ${d.color}33, ${d.color}15)`, border: `2px solid ${d.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Orbitron', monospace", fontSize: 14, fontWeight: 700, color: d.color, flexShrink: 0 }}>{d.init}</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, color: C.text }}>{d.name}</div>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>{d.spec} · {d.exp} exp</div>
+              <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.amber }}>★ {d.rating}</span>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>📍 {d.dist}</span>
+                <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.neon }}>◎ {d.avail}</span>
+              </div>
+            </div>
+            <button onClick={() => setBooked(b => b.includes(d.id) ? b.filter(x => x !== d.id) : [...b, d.id])} style={{
+              padding: "8px 14px", borderRadius: 10, border: "none",
+              background: booked.includes(d.id) ? `${C.neon}22` : `linear-gradient(135deg, ${C.cyan}, ${C.neon})`,
+              color: booked.includes(d.id) ? C.neon : "#000", fontFamily: "'Orbitron', monospace",
+              fontWeight: 700, fontSize: 10, cursor: "pointer", flexShrink: 0,
+              border: booked.includes(d.id) ? `1px solid ${C.neon}` : "none",
+              letterSpacing: "0.05em",
+            }}>{booked.includes(d.id) ? "✓ BOOKED" : "BOOK"}</button>
+          </div>
+        </HoloCard>
+      ))}
+    </div>
+  );
+}
+
+function AppointmentsScreen() {
+  const statusColor = { CONFIRMED: C.neon, PENDING: C.amber, DONE: C.textDim };
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 20, fontWeight: 900, color: C.cyan, letterSpacing: "0.08em" }}>APPOINTMENTS</div>
+      <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>SCHEDULE MANAGEMENT · SYNC ENABLED</div>
+
+      <button style={{ padding: 16, borderRadius: 14, border: `2px dashed ${C.cyan}44`, background: C.cyanDim, color: C.cyan, fontSize: 13, fontFamily: "'Orbitron', monospace", cursor: "pointer", letterSpacing: "0.1em", fontWeight: 700 }}>+ NEW APPOINTMENT</button>
+
+      {APPTS.map((a, i) => (
+        <HoloCard key={a.id} accent={statusColor[a.status]} style={{ animationDelay: `${i * 0.08}s` }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+            <div>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, color: C.text }}>{a.doc}</div>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>{a.spec} · {a.type}</div>
+            </div>
+            <StatusBadge label={a.status} color={statusColor[a.status]} />
+          </div>
+          <div style={{ display: "flex", gap: 16, marginBottom: 14 }}>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 12, color: C.cyan }}>📅 {a.date}</span>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 12, color: C.cyan }}>⏱ {a.time}</span>
+          </div>
+          {a.status !== "DONE" && (
+            <div style={{ display: "flex", gap: 8 }}>
+              <button style={{ flex: 1, padding: "8px", borderRadius: 8, border: `1px solid ${C.border}`, background: "transparent", color: C.textDim, cursor: "pointer", fontSize: 11, fontFamily: "'Orbitron', monospace" }}>RESCHEDULE</button>
+              <button style={{ flex: 2, padding: "8px", borderRadius: 8, border: "none", background: `linear-gradient(135deg, ${C.cyan}, ${C.neon})`, color: "#000", fontFamily: "'Orbitron', monospace", fontWeight: 700, cursor: "pointer", fontSize: 11 }}>VIEW DETAILS</button>
+            </div>
+          )}
+        </HoloCard>
+      ))}
+    </div>
+  );
+}
+
+function EmergencyScreen() {
+  const [shared, setShared] = useState(false);
+  const [ripple, setRipple] = useState(false);
+
+  const handleShare = () => {
+    setRipple(true);
+    setTimeout(() => { setRipple(false); setShared(s => !s); }, 600);
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 20, fontWeight: 900, color: C.red, letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ animation: "pulse 1s infinite" }}>🆘</span> EMERGENCY ID
+      </div>
+      <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim }}>CRITICAL DATA · INSTANT ACCESS · ENCRYPTED</div>
+
+      {/* QR Section */}
+      <HoloCard accent={C.red} glow style={{ textAlign: "center", background: "linear-gradient(135deg, rgba(40,0,10,0.95), rgba(10,0,20,0.95))" }}>
+        <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.red, letterSpacing: "0.2em", marginBottom: 16 }}>⬡ SCAN FOR INSTANT EMERGENCY ACCESS</div>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+          <div style={{ padding: 12, background: C.deep, borderRadius: 16, border: `2px solid ${C.red}66`, boxShadow: `0 0 30px ${C.red}33` }}>
+            <RealQR data={USER.id} size={160} />
+          </div>
+        </div>
+        <div style={{ fontFamily: "'Share Tech Mono', monospace", color: C.red, fontSize: 13, letterSpacing: "0.15em" }}>{USER.id}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 16 }}>
+          {[
+            { l: "BLOOD TYPE", v: USER.blood, c: C.red, big: true },
+            { l: "PATIENT", v: "Alex J.", c: C.cyan },
+            { l: "DATE OF BIRTH", v: "Jul 14, 1990", c: C.text },
+            { l: "WEIGHT", v: USER.weight, c: C.text },
+          ].map(item => (
+            <div key={item.l} style={{ background: "rgba(0,0,20,0.6)", borderRadius: 10, padding: "10px 12px", border: `1px solid ${item.c}33` }}>
+              <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 8, color: C.textDim, letterSpacing: "0.1em" }}>{item.l}</div>
+              <div style={{ fontFamily: "'Orbitron', monospace", fontSize: item.big ? 20 : 13, fontWeight: 900, color: item.c, textShadow: item.big ? `0 0 15px ${item.c}` : "none", marginTop: 2 }}>{item.v}</div>
+            </div>
+          ))}
+        </div>
+      </HoloCard>
+
+      {/* Allergies */}
+      <HoloCard accent={C.red}>
+        <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 10, color: C.red, letterSpacing: "0.15em", marginBottom: 10 }}>⚠ CRITICAL ALLERGIES</div>
+        <div style={{ display: "flex", gap: 10 }}>
+          {USER.allergies.map(a => (
+            <div key={a} style={{ padding: "10px 18px", borderRadius: 10, background: `${C.red}15`, border: `1px solid ${C.red}44`, fontFamily: "'Orbitron', monospace", fontSize: 13, fontWeight: 700, color: C.red }}>{a}</div>
+          ))}
+        </div>
+      </HoloCard>
+
+      {/* Emergency Contact */}
+      <HoloCard accent={C.amber}>
+        <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 10, color: C.amber, letterSpacing: "0.15em", marginBottom: 10 }}>◎ EMERGENCY CONTACT</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 44, height: 44, borderRadius: "50%", background: `${C.amber}22`, border: `2px solid ${C.amber}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>👤</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, color: C.text }}>{USER.emergency.name}</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>{USER.emergency.rel}</div>
+          </div>
+          <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 14, fontWeight: 700, color: C.amber }}>{USER.emergency.phone}</div>
+        </div>
+      </HoloCard>
+
+      {/* Insurance */}
+      <HoloCard accent={C.plasma}>
+        <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 10, color: C.plasma, letterSpacing: "0.15em", marginBottom: 10 }}>◈ INSURANCE DATA</div>
+        <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, color: C.text }}>{USER.insurance.provider}</div>
+        <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: C.textDim, marginTop: 4 }}>Policy: {USER.insurance.policy} · Group: {USER.insurance.group}</div>
+      </HoloCard>
+
+      {/* SOS Button */}
+      <div style={{ position: "relative", textAlign: "center", padding: "10px 0" }}>
+        {ripple && <div style={{ position: "absolute", inset: 0, borderRadius: 14, background: `${C.red}33`, animation: "ripple 0.6s ease-out forwards" }} />}
+        <button onClick={handleShare} style={{
+          width: "100%", padding: "18px", borderRadius: 14, border: "none",
+          background: shared ? `${C.neon}22` : `linear-gradient(135deg, ${C.red}cc, #ff0055)`,
+          color: shared ? C.neon : "#fff",
+          fontSize: 15, fontFamily: "'Orbitron', monospace", fontWeight: 900,
+          cursor: "pointer", letterSpacing: "0.1em",
+          border: shared ? `2px solid ${C.neon}` : "none",
+          boxShadow: shared ? `0 0 30px ${C.neon}44` : `0 0 40px ${C.red}88`,
+          transition: "all 0.3s",
+        }}>
+          {shared ? "✓ EMERGENCY ID TRANSMITTED" : "🔴 SHARE EMERGENCY ID NOW"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════ NAVIGATION ══════════════ */
+const TABS = [
+  { id: "home", icon: "⬡", label: "HOME" },
+  { id: "records", icon: "◈", label: "RECORDS" },
+  { id: "ai", icon: "🧠", label: "NEURAL" },
+  { id: "doctors", icon: "◎", label: "DOCTORS" },
+  { id: "appointments", icon: "◷", label: "SCHEDULE" },
+  { id: "emergency", icon: "🆘", label: "SOS" },
+];
+
+/* ══════════════ BOOT SCREEN ══════════════ */
+function BootScreen({ onDone }) {
+  const [step, setStep] = useState(0);
+  const steps = ["INITIALIZING NEURAL CORE...", "LOADING HEALTH DATABASE...", "ENCRYPTING PATIENT DATA...", "CALIBRATING AI MODELS...", "SYSTEM ONLINE"];
+  useEffect(() => {
+    const t = setInterval(() => setStep(s => { if (s >= steps.length - 1) { clearInterval(t); setTimeout(onDone, 600); return s; } return s + 1; }), 500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div style={{ position: "fixed", inset: 0, background: C.void, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 9999, gap: 24 }}>
+      <NeuralBrain size={120} />
+      <div style={{ fontFamily: "'Orbitron', monospace", fontSize: 24, fontWeight: 900, background: `linear-gradient(135deg, ${C.cyan}, ${C.neon})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "0.15em" }}>NEURAL HEALTH ID</div>
+      <div style={{ width: 280 }}>
+        {steps.slice(0, step + 1).map((s, i) => (
+          <div key={i} style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: i === step ? C.neon : C.textDim, marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: i === step ? C.neon : C.textDim }}>{i < step ? "✓" : i === step ? "►" : "○"}</span> {s}
+          </div>
+        ))}
+      </div>
+      <div style={{ width: 280, height: 3, background: `${C.border}`, borderRadius: 2, overflow: "hidden" }}>
+        <div style={{ width: `${((step + 1) / steps.length) * 100}%`, height: "100%", background: `linear-gradient(90deg, ${C.cyan}, ${C.neon})`, borderRadius: 2, transition: "width 0.4s ease", boxShadow: `0 0 10px ${C.cyanGlow}` }} />
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════ MAIN APP ══════════════ */
+export default function NeuralHealthApp() {
+  const [screen, setScreen] = useState("home");
+  const [booted, setBooted] = useState(false);
+
+  const screens = {
+    home: <HomeScreen />,
+    records: <RecordsScreen />,
+    ai: <AIBrain />,
+    doctors: <DoctorsScreen />,
+    appointments: <AppointmentsScreen />,
+    emergency: <EmergencyScreen />,
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", background: C.void, color: C.text, fontFamily: "'Rajdhani', sans-serif", overflowX: "hidden" }}>
+      <HoloGrid />
+      <NeuralCanvas />
+
+      {!booted && <BootScreen onDone={() => setBooted(true)} />}
+
+      <div style={{ position: "relative", zIndex: 10, display: "flex", justifyContent: "center", minHeight: "100vh" }}>
+        <div style={{ width: "100%", maxWidth: 440, display: "flex", flexDirection: "column" }}>
+          {/* Top Bar */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px 8px", borderBottom: `1px solid ${C.border}` }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.neon, boxShadow: `0 0 8px ${C.neon}`, animation: "pulse 2s infinite" }} />
+              <span style={{ fontFamily: "'Orbitron', monospace", fontSize: 12, fontWeight: 700, color: C.cyan, letterSpacing: "0.15em" }}>NEURAL HEALTH</span>
+            </div>
+            <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 10, color: C.textDim }}>v3.0 · SECURE</span>
+          </div>
+
+          {/* Content */}
+          <div style={{ flex: 1, padding: "16px 16px 100px", overflowY: "auto" }}>
+            {screens[screen]}
+          </div>
+
+          {/* Bottom Nav */}
+          <div style={{
+            position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
+            width: "100%", maxWidth: 440, zIndex: 100,
+            background: "rgba(2,8,25,0.95)", backdropFilter: "blur(30px)",
+            borderTop: `1px solid ${C.border}`,
+            display: "grid", gridTemplateColumns: "repeat(6, 1fr)",
+          }}>
+            {TABS.map(tab => (
+              <button key={tab.id} onClick={() => setScreen(tab.id)} style={{
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                padding: "10px 4px 12px", border: "none",
+                background: screen === tab.id ? `${tab.id === "emergency" ? C.red : C.cyan}15` : "transparent",
+                color: screen === tab.id ? (tab.id === "emergency" ? C.red : C.cyan) : C.textDim,
+                cursor: "pointer", transition: "all 0.2s",
+                borderTop: screen === tab.id ? `2px solid ${tab.id === "emergency" ? C.red : C.cyan}` : "2px solid transparent",
+              }}>
+                <span style={{ fontSize: 16 }}>{tab.icon}</span>
+                <span style={{ fontFamily: "'Orbitron', monospace", fontSize: 7, letterSpacing: "0.05em", fontWeight: 700 }}>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
