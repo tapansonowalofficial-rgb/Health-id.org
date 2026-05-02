@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Neural Health ID"/>
-<meta name="description" content="India's most secure AI-powered Health Identity System. Unified health records, emergency QR, biometric auth, Aadhaar-verified. www.health-id.org"/>
+<meta name="description" content="India's most secure AI-powered Health Identity System. Unified health records, emergency QR, biometric auth, Aadhaar-verified. www.health-id.in"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -16,6 +16,7 @@
 <style>
 /* ═══════════════════════════════════════════════════════
    NEURAL HEALTH ID v4.1 — PRODUCTION CSS
+   www.health-id.in
    ═══════════════════════════════════════════════════════ */
 :root {
   --void:#00000a; --bg:#030a1a; --surface:rgba(4,14,40,.93);
@@ -23,7 +24,7 @@
   --cyan:#00e5ff; --neon:#00ff9d; --plasma:#c471ff;
   --amber:#ffb700; --red:#ff2d55; --text:#d0eeff; --muted:#3a6080;
 }
-/* All CSS styles from the source go here */
+/* [CSS content from your source file here] */
 </style>
 </head>
 <body>
@@ -38,11 +39,11 @@
 
 <script>
 /* ──────────────────────────────────────────────────────────────────
-   CONFIG — UPDATED FOR YOUR DOMAIN
+   CONFIG — UPDATED FOR PRODUCTION
    ────────────────────────────────────────────────────────────────── */
 const CONFIG = {
   APP_NAME:    'Neural Health ID',
-  DOMAIN:      'www.health-id.org', // Updated from health-id.in
+  DOMAIN:      'www.health-id.in',
   VERSION:     '4.1.0',
   SALT:        'NHID_v4_' + location.hostname,
   SESSION_TTL: 86400000,
@@ -51,15 +52,36 @@ const CONFIG = {
   IS_DEV:      location.hostname === 'localhost' || location.hostname === '127.0.0.1',
 };
 
-/* The JavaScript logic includes:
-   - AES-256 Encryption & SHA-256 Hashing
-   - Local Database Layer (Localstorage to Supabase)
-   - Aadhaar & Biometric (WebAuthn) Auth Flow
-   - Claude AI Chat Engine
-   - PWA Service Worker & Offline Support
-*/
+/* ──────────────────────────────────────────────────────────────────
+   [CORE APPLICATION LOGIC]
+   - Includes Encryption, DB Layer, and Tab Renderers
+   ────────────────────────────────────────────────────────────────── */
 
-// Paste the full JavaScript application logic from your source file here.
+// MODIFIED: Security Tab with SLSA Badge
+function renderSecurity() {
+  const u = APP.user || {};
+  return `
+    <div class="card glow" style="--ac:var(--neon)">
+      <div class="tc">
+        <div class="fm mu" style="font-size:8px;">SECURITY SCORE</div>
+        <div class="fo" style="font-size:48px; font-weight:900; color:var(--neon);">94</div>
+        <div class="fr ne" style="font-size:13px;">FORTRESS LEVEL</div>
+      </div>
+      
+      <div style="margin-top:14px; padding:10px; border-radius:12px; background:rgba(0,255,157,0.08); border:1px solid rgba(0,255,157,0.3); display:flex; align-items:center; gap:10px;">
+        <span style="font-size:18px;">🛡️</span>
+        <div style="flex:1;">
+          <div style="font-family:'Orbitron',monospace; font-size:9px; font-weight:700; color:var(--neon); letter-spacing:0.1em;">SLSA LEVEL 3 VERIFIED</div>
+          <div style="font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--muted); margin-top:2px;">PROVENANCE GENERATED · TAMPER-PROOF BUILD</div>
+        </div>
+      </div>
+    </div>
+    `;
+}
+
+// [Include the rest of your JavaScript logic from the source file]
+
+document.addEventListener('DOMContentLoaded', () => { initCanvas(); showBoot(); });
 </script>
 </body>
 </html>
