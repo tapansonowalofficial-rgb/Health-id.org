@@ -1,24 +1,16 @@
 # Contributing to Health-ID
 
-First off, thank you for considering contributing to Health-ID! It's people like you who make this tool better for everyone.
+Thank you for your interest in securing medical data! Please follow these guidelines:
 
-## How Can I Contribute?
+## Code of Conduct
+By participating, you agree to uphold our commitment to privacy and data integrity.
 
-### Reporting Bugs
-* Check the Issues tab to see if the bug has already been reported.
-* If not, open a new issue using the "Bug Report" template.
-* Include as many details as possible, including steps to reproduce.
+## Development Workflow
+1. **Fork** the repository and create your branch from `main`.
+2. **Modularize**: Do not add logic to `index.html`. Place business logic in `app/core/` and UI in `app/components/`.
+3. **Security**: Any changes to the `crypto.js` module require extensive testing and documentation.
 
-### Suggesting Enhancements
-* Open an issue with the "Feature Request" template.
-* Explain why this feature would be useful and how it should work.
-
-### Pull Requests
-1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. Ensure the UI remains responsive and follows the existing design language.
-4. Submit your PR with a clear description of the changes.
-
-## Coding Standards
-* Maintain a clean, modular structure.
-* Document new functions in `docs/API.md`.
+## Pull Request Process
+- Ensure all CI/CD checks pass.
+- Update `docs/API.md` if you add or modify an endpoint.
+- Link your PR to a specific issue.
