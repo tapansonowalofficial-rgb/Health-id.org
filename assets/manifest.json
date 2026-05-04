@@ -1,0 +1,28 @@
+{
+  "name": "Health-ID: Secure Medical Identity",
+  "short_name": "Health-ID",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007AFF",
+  "icons": [
+    {
+      "src": "assets/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergency Life-QR",
+      "url": "/emergency",
+      "description": "Show emergency medical ID"
+    }
+  ]
+}
