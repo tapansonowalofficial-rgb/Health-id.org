@@ -1,11 +1,11 @@
-import { createHmac, pbkdf2Sync } from 'crypto';
+import { pbkdf2Sync } from 'crypto';
 
 /**
- * Professional-grade hashing for Government IDs (Aadhaar/Health-ID).
- * Uses PBKDF2 with 100,000 iterations for brute-force resistance.
+ * Professional-grade hashing for Identifiers.
+ * Uses PBKDF2 to prevent brute-force attacks on sensitive IDs.
  */
 export function secureHash(input: string): string {
-  const salt = process.env.IDENTITY_SALT || 'neural-default-salt-2026';
+  const salt = process.env.IDENTITY_SALT || 'fallback-salt';
   const iterations = 100000;
   const keylen = 64;
   const digest = 'sha512';
@@ -13,9 +13,6 @@ export function secureHash(input: string): string {
   return pbkdf2Sync(input, salt, iterations, keylen, digest).toString('hex');
 }
 
-/**
- * Standard masking for sensitive UI data.
- */
-export function maskData(val: string): string {
-  return val.replace(/.(?=.{4})/g, 'X');
+export function maskID(id: string): string {
+  return `XXXX-XXXX-${id.slice(-4)}`;
 }
