@@ -1,28 +1,63 @@
-{
-  "name": "Health-ID: Secure Medical Identity",
-  "short_name": "Health-ID",
-  "start_url": "/index.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007AFF",
-  "icons": [
-    {
-      "src": "assets/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Emergency Life-QR",
-      "url": "/emergency",
-      "description": "Show emergency medical ID"
-    }
-  ]
-}
+const CACHE_NAME = "neural-health-v4.1";
+
+const OFFLINE_ASSETS = [
+  "/",
+  "/index.html",
+  "/manifest.json",
+  "/offline-id.png",
+  "/styles/globals.css",
+];
+
+// INSTALL
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
+
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(OFFLINE_ASSETS);
+    })
+  );
+});
+
+// ACTIVATE
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// FETCH (Stale While Revalidate)
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      const networkFetch = fetch(event.request)
+        .then((networkResponse) => {
+          if (!networkResponse || networkResponse.status !== 200) {
+            return networkResponse;
+          }
+
+          const cloned = networkResponse.clone();
+
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, cloned);
+          });
+
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
+
+      return cachedResponse || networkFetch;
+    })
+  );
+});
