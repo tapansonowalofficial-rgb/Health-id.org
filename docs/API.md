@@ -1,18 +1,10 @@
-# Health-ID API Specification (v1.0.0)
+# API Integration Guide
 
-## Security Protocol
-All requests must be encrypted using **AES-256-GCM**. No PII (Personally Identifiable Information) should be transmitted in plaintext.
+## Authentication
+`POST /api/v1/auth/verify`
+Requires: `Firebase-ID-Token`
+Response: `200 OK` with session validation.
 
-### 1. Authentication
-**Endpoint:** `POST /auth/verify`
-- **Header:** `Authorization: Bearer <Firebase_Token>`
-- **Body:** `{ "deviceId": "UUID", "biometricSignature": "String" }`
-
-### 2. Life-QR Generation
-**Endpoint:** `GET /identity/qr-token`
-- **Function:** Generates a short-lived (60s) TOTP-based token for emergency medical access.
-
-### 3. Med-Scan Vision Integration
-**Endpoint:** `POST /vision/analyze`
-- **Input:** Base64 Image String (Prescription/Report)
-- **Output:** Structured JSON containing `medication_name`, `dosage`, and `frequency`.
+## Medical Record Retrieval
+`GET /api/v1/records/{health_id}`
+Returns encrypted JSON payload. Decryption must occur on the client side using the user's private key.
