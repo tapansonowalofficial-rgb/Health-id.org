@@ -1,40 +1,33 @@
-import VitalsCard from '@/components/VitalsCard';
-import { maskData } from '@/lib/security';
+import BiometricCard from '@/components/BiometricCard';
+import { maskID } from '@/lib/security';
 
-export default function DashboardPage() {
-  const user = { name: "Tapan Sonowal", id: "123456789012" };
+export default function Dashboard() {
+  const mockUser = { name: "TAPAN SONOWAL", id: "998100124567" };
 
   return (
-    <div className="min-h-screen bg-[#00000a] text-white p-6 font-rajdhani">
-      {/* HUD Header */}
-      <header className="mb-10 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-orbitron tracking-tighter uppercase font-black">
-            {user.name}
-          </h1>
-          <p className="font-mono text-xs text-cyan opacity-60">
-            ID: {maskData(user.id)}
-          </p>
-        </div>
-        <div className="h-12 w-12 rounded-full border border-neon animate-pulse flex items-center justify-center">
-          <div className="h-8 w-8 rounded-full bg-neon/20 blur-sm" />
-        </div>
-      </header>
-
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <VitalsCard label="Heart Rate" value="72" unit="BPM" type="heart" />
-        <VitalsCard label="Blood Oxygen" value="98" unit="%" type="oxygen" />
+    <main className="min-h-screen bg-[#00000a] text-white p-8 font-rajdhani">
+      {/* HUD HEADER */}
+      <div className="mb-12 border-l-2 border-cyan pl-6">
+        <p className="text-neon text-[10px] font-mono mb-1 animate-pulse">● SYSTEM LIVE</p>
+        <h1 className="text-4xl font-orbitron font-black tracking-tighter">{mockUser.name}</h1>
+        <p className="text-white/40 font-mono text-xs">HID: {maskID(mockUser.id)}</p>
       </div>
 
-      {/* Neural AI Section */}
-      <section className="mt-8 p-6 rounded-3xl bg-gradient-to-br from-cyan/10 to-transparent border border-cyan/20">
-        <h3 className="text-xs font-orbitron text-cyan mb-4 tracking-[0.2em]">NEURAL CORE INSIGHT</h3>
-        <p className="text-slate-300 leading-relaxed text-sm">
-          Biometric patterns indicate optimal recovery. Neural Link suggests 
-          increasing hydration by 15% due to detected local temperature spikes.
+      {/* BIOMETRIC GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <BiometricCard label="Heart Rate" value="72" unit="BPM" />
+        <BiometricCard label="Oxygen Sat" value="99" unit="%" />
+        <BiometricCard label="Neural Load" value="14" unit="ms" />
+      </div>
+
+      {/* AI INSIGHT SECTION */}
+      <div className="mt-12 p-8 rounded-3xl bg-gradient-to-br from-cyan/5 to-transparent border border-white/5">
+        <h3 className="font-orbitron text-xs text-cyan tracking-widest mb-4">NEURAL CORE ANALYSIS</h3>
+        <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
+          Current heart rate variability indicates optimal parasympathetic tone. 
+          Med-Scan suggests maintaining current hydration levels for the next 4 hours.
         </p>
-      </section>
-    </div>
+      </div>
+    </main>
   );
 }
