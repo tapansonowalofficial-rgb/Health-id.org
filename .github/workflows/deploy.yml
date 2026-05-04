@@ -1,41 +1,62 @@
-name: Deploy to GitHub Pages
+name: 🧠 Neural CI/CD Pipeline
 
 on:
   push:
-    branches: ["main"]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build-and-deploy:
+  # PHASE 1: SECURITY & INTEGRITY
+  validate-and-scan:
+    name: 🛡️ Security & Integrity Scan
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 🛰️ Logic Synchronized
         uses: actions/checkout@v4
-      
-      - name: Setup Node
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Initialize Neural Environment
         uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install   # or npm ci if you add package-lock.json
+      - name: 🔍 Gitleaks Secret Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
-        run: npm run build
+      - name: 🧬 Dependency Verification
+        run: npm ci
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: 🧪 Type Integrity Check
+        run: npx tsc --noEmit
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: 🎨 Linting Logic
+        run: npm run lint
+
+  # PHASE 2: DEPLOYMENT
+  deploy-to-production:
+    name: 🚀 Deploy to Neural Production
+    needs: validate-and-scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 🛰️ Logic Synchronized
+        uses: actions/checkout@v4
+
+      - name: 🌌 Deploying to Vercel Cloud
+        uses: amondnet/vercel-action@v20
         with:
-          path: './dist'
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
+          working-directory: ./
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: ✅ Deployment Verified
+        run: echo "Neural Health ID deployed successfully"
