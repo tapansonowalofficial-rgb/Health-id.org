@@ -3,161 +3,1049 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="theme-color" content="#00000a"/>
+<meta name="theme-color" content="#00000f"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Neural Health ID"/>
-<meta name="description" content="India's most secure AI-powered Health Identity System. Unified health records, emergency QR, biometric auth, Aadhaar-verified. www.health-id.in"/>
-<meta name="keywords" content="health id, digital health card, India health identity, aadhaar health, neural health, emergency health QR, ABHA, health records India"/>
-<meta name="author" content="Neural Health ID · www.health-id.in"/>
+<meta name="description" content="India's most secure AI-powered Health Identity System. Unified health records, emergency QR, biometric auth, Aadhaar-verified."/>
 <meta property="og:title" content="Neural Health ID — India's Smartest Health Identity"/>
 <meta property="og:description" content="One QR. Your complete health identity. Aadhaar-verified, AI-powered, AES-256 secured."/>
 <meta property="og:url" content="https://www.health-id.in"/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="https://www.health-id.in"/>
 <title>Neural Health ID · India's Smartest Health Identity Platform</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
 <style>
-/* ═══════════════════════════════════════════════════════
-   NEURAL HEALTH ID v4.1 — PRODUCTION CSS
-   www.health-id.in
-   ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   NEURAL HEALTH ID v5.0 — PURE HTML BUILD
+   Works in Spck Editor · No build tools needed
+   ═══════════════════════════════════════════ */
 :root {
-  --void:#00000a; --bg:#030a1a; --surface:rgba(4,14,40,.93);
-  --glass:rgba(5,18,52,.80); --border:rgba(0,229,255,.13);
-  --cyan:#00e5ff; --neon:#00ff9d; --plasma:#c471ff;
-  --amber:#ffb700; --red:#ff2d55; --text:#d0eeff; --muted:#3a6080;
-  --sat:env(safe-area-inset-top,0px);
-  --sab:env(safe-area-inset-bottom,0px);
+  --void:#00000f; --bg:#020818; --card:rgba(2,15,40,0.88);
+  --cardbright:rgba(5,25,65,0.92); --glass:rgba(5,18,52,0.82);
+  --border:rgba(0,245,255,0.15); --borderbright:rgba(0,245,255,0.4);
+  --cyan:#00f5ff; --cyandim:rgba(0,245,255,0.12); --cyanglow:rgba(0,245,255,0.4);
+  --neon:#00ff9d; --neondim:rgba(0,255,157,0.12);
+  --plasma:#bf5fff; --plasmadim:rgba(191,95,255,0.15);
+  --amber:#ffb300; --red:#ff3366; --text:#cce8ff; --muted:#4a7fa0;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
 }
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overflow:hidden; background:var(--void); }
-body { font-family:'Rajdhani',sans-serif; color:var(--text); overscroll-behavior:none; }
 
-/* ANIMATIONS */
-@keyframes breathe  { 0%,100%{opacity:.45;transform:scale(1)} 50%{opacity:.88;transform:scale(1.1)} }
-@keyframes pulse    { 0%,100%{opacity:.65;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
-@keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-@keyframes orbitR   { from{transform:rotateZ(0deg) rotateX(70deg)} to{transform:rotateZ(360deg) rotateX(70deg)} }
-@keyframes slideUp  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes glitch   { 0%,91%,100%{transform:none;opacity:1} 92%{transform:skewX(5deg);opacity:.8} 94%{transform:skewX(-3deg)} 96%{transform:none} }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html { height:100%; background:var(--void); }
+body {
+  font-family:'Rajdhani',sans-serif; color:var(--text);
+  background:var(--void); min-height:100vh;
+  overscroll-behavior:none; overflow-x:hidden;
+}
 
-/* LAYOUT */
+/* ── ANIMATIONS ── */
+@keyframes breathe    { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.12)} }
+@keyframes pulse      { 0%,100%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.06)} }
+@keyframes float      { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes orbitRing  { from{transform:rotateZ(0deg) rotateX(70deg)} to{transform:rotateZ(360deg) rotateX(70deg)} }
+@keyframes slideIn    { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes glitch     { 0%,93%,100%{transform:none;opacity:1} 94%{transform:skewX(5deg);opacity:.8} 96%{transform:skewX(-3deg)} 98%{transform:none} }
+@keyframes ripple     { 0%{transform:scale(0.8);opacity:1} 100%{transform:scale(2.5);opacity:0} }
+@keyframes scanline   { from{top:-2px} to{top:100%} }
+@keyframes spin3d     { from{transform:rotateY(0deg) rotateX(15deg)} to{transform:rotateY(360deg) rotateX(15deg)} }
+@keyframes waveBar    { 0%,100%{transform:scaleY(0.3)} 50%{transform:scaleY(1)} }
+@keyframes bootBar    { from{width:0} to{width:100%} }
+@keyframes fadeIn     { from{opacity:0} to{opacity:1} }
+@keyframes blink      { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes dataflow   { from{stroke-dashoffset:200} to{stroke-dashoffset:0} }
+@keyframes neonPulse  { 0%,100%{box-shadow:0 0 8px var(--neon)} 50%{box-shadow:0 0 20px var(--neon),0 0 40px var(--neon)} }
+
+/* ── BACKGROUND ── */
 #bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
-#holo-bg   { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-.hg-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:44px 44px; mask-image:radial-gradient(ellipse 85% 85% at 50% 40%,black 10%,transparent 75%); }
-#shell { position:relative; z-index:10; height:100vh; display:flex; flex-direction:column; max-width:460px; margin:0 auto; }
-#content { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 15px 110px; }
+#holo-bg   { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.hg-grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 90% 90% at 50% 40%,black 10%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 40%,black 10%,transparent 80%);
+}
+.hg-glow-top {
+  position:absolute; top:5%; left:50%; transform:translateX(-50%);
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,245,255,0.05) 0%,transparent 70%);
+  animation:breathe 5s ease-in-out infinite;
+}
+.hg-glow-bot {
+  position:absolute; bottom:-150px; right:-80px;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(ellipse,rgba(191,95,255,0.07) 0%,transparent 70%);
+  animation:breathe 7s ease-in-out infinite reverse;
+}
 
-/* NAVBAR */
-#navbar { padding:7px 0 calc(var(--sab) + 6px); background:rgba(2,6,20,.97); backdrop-filter:blur(30px); border-top:1px solid var(--border); display:grid; grid-template-columns: repeat(6, 1fr); flex-shrink:0; }
-.nb { display:flex; flex-direction:column; align-items:center; gap:2px; background:transparent; border:none; color:var(--muted); cursor:pointer; }
-.nb.on { color:var(--cyan); border-top:2px solid var(--cyan); background:rgba(0,229,255,.07); }
+/* ── BOOT SCREEN ── */
+#boot-screen {
+  position:fixed; inset:0; background:var(--void);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:9999; gap:24px; transition:opacity 0.6s;
+}
+#boot-screen.hidden { opacity:0; pointer-events:none; }
+.boot-brain {
+  width:110px; height:110px; position:relative;
+  perspective:600px; flex-shrink:0;
+}
+.boot-brain-core {
+  position:absolute; inset:20%;
+  background:radial-gradient(ellipse at 35% 35%,rgba(0,245,255,0.55),rgba(191,95,255,0.3) 60%,transparent);
+  border-radius:50%;
+  box-shadow:0 0 30px var(--cyanglow), inset 0 0 20px rgba(191,95,255,0.3);
+  animation:pulse 3s ease-in-out infinite;
+}
+.boot-brain-icon {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:30px; filter:drop-shadow(0 0 10px var(--cyan));
+  animation:float 4s ease-in-out infinite;
+}
+.boot-ring {
+  position:absolute; inset:0; transform-style:preserve-3d;
+}
+.boot-title {
+  font-family:'Orbitron',monospace; font-size:22px; font-weight:900;
+  background:linear-gradient(135deg,var(--cyan),var(--neon));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; letter-spacing:0.15em;
+}
+.boot-steps { width:280px; }
+.boot-step {
+  font-family:'Share Tech Mono',monospace; font-size:11px;
+  color:var(--muted); margin-bottom:6px;
+  display:flex; align-items:center; gap:8px;
+  transition:color 0.3s;
+}
+.boot-step.active { color:var(--neon); }
+.boot-step.done   { color:var(--muted); }
+.boot-bar-wrap { width:280px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+.boot-bar-fill { height:100%; background:linear-gradient(90deg,var(--cyan),var(--neon)); border-radius:2px; box-shadow:0 0 10px var(--cyanglow); width:0; transition:width 0.45s ease; }
 
-/* GLASS CARD */
-.card { background:var(--glass); border:1px solid var(--border); border-radius:18px; padding:17px 19px; position:relative; margin-bottom:13px; animation:slideUp .38s ease both; }
-.card.glow { border-color:var(--ac,var(--cyan)); box-shadow:0 0 30px rgba(0,229,255,.12); }
+/* ── SHELL ── */
+#shell {
+  position:relative; z-index:10;
+  min-height:100vh; display:flex; flex-direction:column;
+  max-width:460px; margin:0 auto;
+}
 
-/* BUTTONS */
-.btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border-radius:12px; border:none; font-family:'Orbitron',monospace; font-weight:700; font-size:11px; cursor:pointer; transition:all .2s; width:100%; }
-.btn-primary { background:linear-gradient(135deg,var(--cyan),var(--neon)); color:#000a14; }
+/* ── TOPBAR ── */
+#topbar {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 20px 10px;
+  background:rgba(2,6,22,0.95); backdrop-filter:blur(30px);
+  border-bottom:1px solid var(--border); flex-shrink:0;
+  position:sticky; top:0; z-index:50;
+}
+.topbar-dot { width:8px; height:8px; border-radius:50%; background:var(--neon); animation:neonPulse 2s infinite; }
+.topbar-logo { font-family:'Orbitron',monospace; font-size:11px; font-weight:700; color:var(--cyan); letter-spacing:0.15em; }
+.topbar-ver  { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); }
 
-/* TOAST */
-#toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-90px); background:var(--glass); border:1px solid var(--neon); border-radius:12px; padding:11px 18px; font-family:'Share Tech Mono',monospace; color:var(--neon); z-index:2000; transition:transform .35s; }
-#toast.visible { transform:translateX(-50%) translateY(0); }
+/* ── CONTENT ── */
+#content { flex:1; padding:14px 15px 110px; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.screen { display:none; flex-direction:column; gap:16px; animation:slideIn 0.35s ease both; }
+.screen.active { display:flex; }
+
+/* ── NAVBAR ── */
+#navbar {
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:460px; z-index:100;
+  background:rgba(2,8,25,0.97); backdrop-filter:blur(30px);
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:repeat(6,1fr);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.nb {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:10px 4px 12px; border:none; background:transparent;
+  color:var(--muted); cursor:pointer; transition:all 0.2s;
+  border-top:2px solid transparent; font-size:15px;
+}
+.nb.active {
+  color:var(--cyan); border-top-color:var(--cyan);
+  background:rgba(0,245,255,0.07);
+}
+.nb.sos { color:var(--red) !important; }
+.nb.sos.active { border-top-color:var(--red); background:rgba(255,51,102,0.07); }
+.nb span.label { font-family:'Orbitron',monospace; font-size:7px; letter-spacing:0.05em; font-weight:700; }
+
+/* ── GLASS CARD ── */
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px; padding:18px 20px;
+  position:relative; overflow:hidden;
+  backdrop-filter:blur(20px);
+  transition:all 0.3s cubic-bezier(0.23,1,0.32,1);
+  box-shadow:0 4px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.card.glow-cyan  { border-color:var(--borderbright); box-shadow:0 0 30px var(--cyandim),0 4px 30px rgba(0,0,0,0.5); }
+.card.glow-neon  { border-color:rgba(0,255,157,0.4); box-shadow:0 0 30px var(--neondim),0 4px 30px rgba(0,0,0,0.5); }
+.card.glow-red   { border-color:rgba(255,51,102,0.4); box-shadow:0 0 30px rgba(255,51,102,0.2),0 4px 30px rgba(0,0,0,0.5); }
+.card.glow-plasma{ border-color:rgba(191,95,255,0.4); box-shadow:0 0 30px var(--plasmadim),0 4px 30px rgba(0,0,0,0.5); }
+.card.hero-home  { background:linear-gradient(135deg,rgba(0,30,60,0.95),rgba(0,10,30,0.95)); }
+.card.hero-sos   { background:linear-gradient(135deg,rgba(40,0,10,0.97),rgba(10,0,20,0.97)); }
+
+/* Corner accents */
+.card::before,.card::after { content:''; position:absolute; width:12px; height:12px; opacity:0.7; }
+.card::before { top:0; left:0; border-top:2px solid var(--border); border-left:2px solid var(--border); border-radius:4px 0 0 0; }
+.card::after  { bottom:0; right:0; border-bottom:2px solid var(--border); border-right:2px solid var(--border); border-radius:0 0 4px 0; }
+
+/* ── SECTION LABEL ── */
+.sec-label { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.sec-label-bar  { width:3px; height:18px; background:linear-gradient(var(--cyan),var(--neon)); border-radius:2px; }
+.sec-label-text { font-family:'Orbitron',monospace; font-size:11px; font-weight:700; color:var(--cyan); letter-spacing:0.15em; text-transform:uppercase; }
+.sec-label-line { flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
+
+/* ── BADGE ── */
+.badge {
+  display:inline-block; padding:3px 10px; border-radius:20px;
+  font-size:9px; font-weight:700; font-family:'Orbitron',monospace; letter-spacing:0.1em;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:100%; padding:15px 20px; border-radius:12px; border:none;
+  font-family:'Orbitron',monospace; font-weight:700; font-size:11px;
+  cursor:pointer; letter-spacing:0.1em; transition:all 0.2s;
+  background:linear-gradient(135deg,var(--cyan),var(--neon)); color:#000a14;
+  box-shadow:0 0 20px var(--cyanglow);
+}
+.btn-outline {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:9px 14px; border-radius:10px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); cursor:pointer; font-size:11px;
+  font-family:'Orbitron',monospace; letter-spacing:0.05em; transition:all 0.2s;
+}
+.btn-book {
+  padding:8px 14px; border-radius:10px; border:none;
+  background:linear-gradient(135deg,var(--cyan),var(--neon));
+  color:#000; font-family:'Orbitron',monospace; font-weight:700;
+  font-size:10px; cursor:pointer; letter-spacing:0.05em; transition:all 0.2s;
+}
+.btn-book.booked {
+  background:var(--neondim) !important; color:var(--neon) !important;
+  border:1px solid var(--neon) !important;
+}
+.btn-sos {
+  width:100%; padding:18px; border-radius:14px; border:none;
+  font-family:'Orbitron',monospace; font-weight:900; font-size:15px;
+  cursor:pointer; letter-spacing:0.1em; transition:all 0.3s;
+  background:linear-gradient(135deg,rgba(255,51,102,0.9),#ff0055);
+  color:#fff; box-shadow:0 0 40px rgba(255,51,102,0.6);
+}
+.btn-sos.sent {
+  background:var(--neondim) !important; color:var(--neon) !important;
+  border:2px solid var(--neon); box-shadow:0 0 30px rgba(0,255,157,0.3) !important;
+}
+
+/* ── VITALS GRID ── */
+.vitals-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+/* ── AI CHAT ── */
+.chat-wrap { display:flex; flex-direction:column; gap:12px; max-height:360px; overflow-y:auto; padding-right:2px; }
+.chat-msg { display:flex; flex-direction:column; }
+.chat-msg.user { align-items:flex-end; }
+.chat-msg.ai   { align-items:flex-start; }
+.chat-bubble {
+  max-width:85%; padding:12px 16px; font-size:13px; line-height:1.6;
+  color:var(--text);
+}
+.chat-bubble.user {
+  border-radius:16px 16px 4px 16px;
+  background:linear-gradient(135deg,rgba(191,95,255,0.25),rgba(0,245,255,0.15));
+  border:1px solid rgba(191,95,255,0.35);
+  font-family:'Share Tech Mono',monospace;
+}
+.chat-bubble.ai {
+  border-radius:4px 16px 16px 16px;
+  background:var(--cardbright); border:1px solid var(--border);
+  font-family:'Rajdhani',sans-serif; font-weight:500;
+  box-shadow:0 0 20px rgba(0,245,255,0.06);
+}
+.chat-meta { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--muted); margin-top:4px; }
+.typing-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--cyan);
+  display:inline-block;
+  animation:waveBar 1s ease-in-out infinite;
+}
+
+/* ── SUGGESTION CHIPS ── */
+.chips { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+.chip {
+  white-space:nowrap; padding:6px 14px; border-radius:20px;
+  border:1px solid var(--border); background:var(--cyandim);
+  color:var(--cyan); font-size:11px; cursor:pointer;
+  font-family:'Share Tech Mono',monospace; transition:all 0.2s;
+  flex-shrink:0;
+}
+.chip:active { background:rgba(0,245,255,0.25); }
+
+/* ── FILTER TABS ── */
+.filters { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+.filter-btn {
+  padding:6px 14px; border-radius:8px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); cursor:pointer;
+  font-size:11px; font-family:'Orbitron',monospace; letter-spacing:0.08em;
+  white-space:nowrap; transition:all 0.2s; flex-shrink:0;
+}
+.filter-btn.active { border-color:var(--cyan); background:var(--cyandim); color:var(--cyan); }
+
+/* ── INPUT ── */
+.ai-input {
+  width:100%; padding:12px 16px; border-radius:12px;
+  background:rgba(0,10,30,0.85); border:1px solid var(--border);
+  color:var(--text); font-size:13px; outline:none;
+  font-family:'Share Tech Mono',monospace; box-sizing:border-box;
+  transition:border-color 0.2s;
+}
+.ai-input:focus { border-color:var(--cyan); }
+.search-input {
+  width:100%; padding:12px 16px; border-radius:12px;
+  background:rgba(0,10,30,0.85); border:1px solid var(--border);
+  color:var(--text); font-size:13px; outline:none;
+  font-family:'Share Tech Mono',monospace; box-sizing:border-box;
+  transition:border-color 0.2s;
+}
+.search-input:focus { border-color:var(--cyan); }
+
+/* ── SEND BTN ── */
+.send-btn {
+  width:44px; height:44px; border-radius:12px; border:none;
+  background:linear-gradient(135deg,var(--cyan),var(--neon));
+  color:#000; font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 20px var(--cyanglow); flex-shrink:0; transition:all 0.2s;
+}
+.send-btn:disabled { background:var(--cyandim); color:var(--muted); box-shadow:none; cursor:not-allowed; }
+
+/* ── TOAST ── */
+#toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-90px);
+  background:var(--cardbright); border:1px solid var(--neon); border-radius:12px;
+  padding:11px 20px; font-family:'Share Tech Mono',monospace; color:var(--neon);
+  z-index:2000; transition:transform 0.35s; white-space:nowrap; font-size:13px;
+}
+#toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ── DOCTOR CARD ── */
+.doc-avatar {
+  width:52px; height:52px; border-radius:50%; border:2px solid;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',monospace; font-size:14px; font-weight:700; flex-shrink:0;
+}
+
+/* ── HEALTH SCORE BAR ── */
+.score-bar { width:6px; border-radius:3px; margin:0 auto 4px; background:linear-gradient(var(--cyan),var(--neon)); }
+
+/* ── QR SVG wrapper ── */
+.qr-wrap {
+  display:flex; justify-content:center; margin-bottom:16px;
+}
+.qr-inner {
+  padding:12px; background:var(--bg); border-radius:16px;
+  border:2px solid rgba(255,51,102,0.5);
+  box-shadow:0 0 30px rgba(255,51,102,0.25);
+}
+
+/* ── NEURAL BRAIN (CSS only) ── */
+.brain-wrap { position:relative; perspective:600px; flex-shrink:0; }
+.brain-core {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(ellipse at 35% 35%,rgba(0,245,255,0.55),rgba(191,95,255,0.3) 60%,transparent);
+  animation:pulse 3s ease-in-out infinite;
+}
+.brain-emoji { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; animation:float 4s ease-in-out infinite; }
+.orbit { position:absolute; inset:0; transform-style:preserve-3d; }
+
+/* Responsive scrollbar hidden */
+::-webkit-scrollbar { width:0; height:0; }
 </style>
 </head>
-
 <body>
+
+<!-- Neural Particle Canvas -->
 <canvas id="bg-canvas"></canvas>
+
+<!-- Holographic Grid -->
 <div id="holo-bg">
-    <div class="hg-grid"></div>
-    <div class="hg-top"></div>
-    <div class="hg-bot"></div>
+  <div class="hg-grid"></div>
+  <div class="hg-glow-top"></div>
+  <div class="hg-glow-bot"></div>
 </div>
 
-<div id="toast" role="alert">✓ Done</div>
+<!-- Toast -->
+<div id="toast">✓ Done</div>
 
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+  <div class="boot-brain" id="boot-brain-el"></div>
+  <div class="boot-title">NEURAL HEALTH ID</div>
+  <div class="boot-steps" id="boot-steps"></div>
+  <div class="boot-bar-wrap"><div class="boot-bar-fill" id="boot-bar"></div></div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">v5.0 · AES-256 SECURED · health-id.in</div>
+</div>
+
+<!-- SHELL -->
 <div id="shell">
-    <div id="topbar" style="padding:15px; background:rgba(2,6,20,.93); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center; gap:8px;">
-            <div style="width:8px; height:8px; border-radius:50%; background:var(--neon); animation:pulse 2s infinite;"></div>
-            <span style="font-family:'Orbitron',monospace; font-size:10px; font-weight:700; color:var(--cyan);">NEURAL HEALTH ID</span>
+  <!-- Topbar -->
+  <div id="topbar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="topbar-dot"></div>
+      <span class="topbar-logo">NEURAL HEALTH ID</span>
+    </div>
+    <span class="topbar-ver" id="live-time">v5.0 · SECURE</span>
+  </div>
+
+  <!-- Screens -->
+  <div id="content">
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <!-- Hero Card -->
+      <div class="card glow-cyan hero-home">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);letter-spacing:0.2em;margin-bottom:6px">● NEURAL HEALTH SYSTEM ONLINE</div>
+            <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--text);letter-spacing:0.05em;animation:glitch 8s infinite">Alex Johnson</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--cyan);margin-top:4px">HID-2024-78421</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px" id="home-time"></div>
+          </div>
+          <div class="brain-wrap" style="width:85px;height:85px">
+            <div class="brain-core" style="inset:20%;box-shadow:0 0 25px var(--cyanglow)"></div>
+            <div class="brain-emoji" style="font-size:24px;filter:drop-shadow(0 0 10px var(--cyan))">🧠</div>
+          </div>
         </div>
-        <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted);">v4.1.0 · SECURE</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <div style="text-align:center"><div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--red);text-shadow:0 0 10px var(--red)">O+</div><div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px">BLOOD</div></div>
+          <div style="text-align:center"><div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--cyan);text-shadow:0 0 10px var(--cyan)">5'11"</div><div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px">HEIGHT</div></div>
+          <div style="text-align:center"><div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--neon);text-shadow:0 0 10px var(--neon)">175lb</div><div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px">WEIGHT</div></div>
+          <div style="text-align:center"><div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--plasma);text-shadow:0 0 10px var(--plasma)">34</div><div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px">AGE</div></div>
+        </div>
+        <div style="margin-top:14px;padding:8px 12px;background:rgba(255,51,102,0.1);border:1px solid rgba(255,51,102,0.3);border-radius:10px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">⚠️</span>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red)">ALLERGIES: PENICILLIN · PEANUTS</span>
+        </div>
+      </div>
+
+      <!-- Vitals -->
+      <div class="sec-label"><div class="sec-label-bar"></div><span style="font-size:14px">📡</span><span class="sec-label-text">Live Vitals</span><div class="sec-label-line"></div></div>
+      <div class="vitals-grid">
+        <div class="card" style="padding:14px;border-color:rgba(255,51,102,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><span style="font-size:20px">❤️</span><span class="badge" style="background:rgba(255,51,102,0.12);color:var(--red);border:1px solid rgba(255,51,102,0.3)">OPTIMAL</span></div>
+          <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--red);text-shadow:0 0 12px rgba(255,51,102,0.6);margin-top:4px">72</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">bpm</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);margin-top:2px">Heart Rate</div>
+          <svg width="100%" height="48" style="margin-top:8px" viewBox="0 0 120 48"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff3366" stop-opacity="0.35"/><stop offset="100%" stop-color="#ff3366" stop-opacity="0"/></linearGradient></defs><polyline points="0,48 0,22 20,28 40,14 60,24 80,16 100,20 120,48" fill="url(#g1)" stroke="none"/><polyline points="0,22 20,28 40,14 60,24 80,16 100,20 120,22" fill="none" stroke="#ff3366" stroke-width="1.5" stroke-linejoin="round"/><circle cx="120" cy="22" r="3" fill="#ff3366" filter="drop-shadow(0 0 4px #ff3366)"/></svg>
+        </div>
+        <div class="card" style="padding:14px;border-color:rgba(0,245,255,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><span style="font-size:20px">🩸</span><span class="badge" style="background:var(--cyandim);color:var(--cyan);border:1px solid rgba(0,245,255,0.3)">NORMAL</span></div>
+          <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--cyan);text-shadow:0 0 12px var(--cyanglow);margin-top:4px">118/76</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">mmHg</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);margin-top:2px">Blood Pressure</div>
+          <svg width="100%" height="48" style="margin-top:8px" viewBox="0 0 120 48"><defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00f5ff" stop-opacity="0.35"/><stop offset="100%" stop-color="#00f5ff" stop-opacity="0"/></linearGradient></defs><polyline points="0,48 0,18 20,28 40,22 60,10 80,16 100,20 120,48" fill="url(#g2)" stroke="none"/><polyline points="0,18 20,28 40,22 60,10 80,16 100,20 120,18" fill="none" stroke="#00f5ff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="120" cy="18" r="3" fill="#00f5ff" filter="drop-shadow(0 0 4px #00f5ff)"/></svg>
+        </div>
+        <div class="card" style="padding:14px;border-color:rgba(0,255,157,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><span style="font-size:20px">💨</span><span class="badge" style="background:var(--neondim);color:var(--neon);border:1px solid rgba(0,255,157,0.3)">OPTIMAL</span></div>
+          <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--neon);text-shadow:0 0 12px rgba(0,255,157,0.5);margin-top:4px">98%</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">SpO₂</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);margin-top:2px">Oxygen Sat.</div>
+          <svg width="100%" height="48" style="margin-top:8px" viewBox="0 0 120 48"><defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00ff9d" stop-opacity="0.35"/><stop offset="100%" stop-color="#00ff9d" stop-opacity="0"/></linearGradient></defs><polyline points="0,48 0,20 20,16 40,22 60,8 80,18 100,14 120,48" fill="url(#g3)" stroke="none"/><polyline points="0,20 20,16 40,22 60,8 80,18 100,14 120,16" fill="none" stroke="#00ff9d" stroke-width="1.5" stroke-linejoin="round"/><circle cx="120" cy="16" r="3" fill="#00ff9d" filter="drop-shadow(0 0 4px #00ff9d)"/></svg>
+        </div>
+        <div class="card" style="padding:14px;border-color:rgba(255,179,0,0.3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><span style="font-size:20px">⚡</span><span class="badge" style="background:rgba(255,179,0,0.1);color:var(--amber);border:1px solid rgba(255,179,0,0.3)">NORMAL</span></div>
+          <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--amber);text-shadow:0 0 12px rgba(255,179,0,0.5);margin-top:4px">95</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">mg/dL</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);margin-top:2px">Blood Sugar</div>
+          <svg width="100%" height="48" style="margin-top:8px" viewBox="0 0 120 48"><defs><linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffb300" stop-opacity="0.35"/><stop offset="100%" stop-color="#ffb300" stop-opacity="0"/></linearGradient></defs><polyline points="0,48 0,24 20,12 40,28 60,10 80,20 100,16 120,48" fill="url(#g4)" stroke="none"/><polyline points="0,24 20,12 40,28 60,10 80,20 100,16 120,20" fill="none" stroke="#ffb300" stroke-width="1.5" stroke-linejoin="round"/><circle cx="120" cy="20" r="3" fill="#ffb300" filter="drop-shadow(0 0 4px #ffb300)"/></svg>
+        </div>
+      </div>
+
+      <!-- Next Appt -->
+      <div class="sec-label"><div class="sec-label-bar"></div><span style="font-size:14px">📅</span><span class="sec-label-text">Next Appointment</span><div class="sec-label-line"></div></div>
+      <div class="card glow-neon">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,rgba(0,255,157,0.2),rgba(0,245,255,0.12));border:2px solid var(--neon);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--neon);flex-shrink:0">AP</div>
+          <div style="flex:1">
+            <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--text)">Dr. Aisha Patel</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">Primary Care · Follow-up</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--cyan)">DEC 5</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">3:00 PM</div>
+            <span class="badge" style="background:var(--neondim);color:var(--neon);border:1px solid rgba(0,255,157,0.3);margin-top:4px;display:inline-block">CONFIRMED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Score -->
+      <div class="card glow-plasma" style="text-align:center;padding:24px">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.15em;margin-bottom:8px">AI HEALTH SCORE</div>
+        <div style="font-family:'Orbitron',monospace;font-size:58px;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">87</div>
+        <div style="font-family:'Rajdhani',sans-serif;color:var(--neon);font-size:14px;margin-top:4px">EXCELLENT · TOP 12% OF YOUR AGE GROUP</div>
+        <div style="display:flex;gap:12px;margin-top:18px;justify-content:center;align-items:flex-end">
+          <div style="text-align:center"><div class="score-bar" style="height:29px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--muted)">Cardio</div></div>
+          <div style="text-align:center"><div class="score-bar" style="height:24px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--muted)">Metabolic</div></div>
+          <div style="text-align:center"><div class="score-bar" style="height:27px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--muted)">Immunity</div></div>
+          <div style="text-align:center"><div class="score-bar" style="height:22px"></div><div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--muted)">Sleep</div></div>
+        </div>
+      </div>
+    </div><!-- end home -->
+
+    <!-- RECORDS -->
+    <div class="screen" id="screen-records">
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--cyan);letter-spacing:0.08em">HEALTH RECORDS</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">ENCRYPTED · HIPAA COMPLIANT · 6 FILES ON CHAIN</div>
+      <div class="filters" id="records-filters"></div>
+      <div id="records-list"></div>
     </div>
 
-    <div id="content">
+    <!-- AI NEURAL -->
+    <div class="screen" id="screen-ai">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="brain-wrap" style="width:70px;height:70px;flex-shrink:0">
+          <div class="brain-core" style="inset:20%;box-shadow:0 0 20px var(--cyanglow)"></div>
+          <div class="brain-emoji" style="font-size:20px;filter:drop-shadow(0 0 8px var(--cyan))">🧠</div>
         </div>
+        <div>
+          <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--cyan);letter-spacing:0.1em">NEURAL AI</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon)">● INTELLIGENCE CORE ACTIVE</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px">HEALTH ANALYSIS · PREDICTIVE · REAL-TIME</div>
+        </div>
+      </div>
+      <div class="chips" id="ai-suggestions"></div>
+      <div class="card" style="padding:14px">
+        <div class="chat-wrap" id="chat-messages"></div>
+        <div id="typing-indicator" style="display:none;padding:8px 4px;align-items:center;gap:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 6px var(--neon)"></div>
+          <div style="display:flex;gap:4px">
+            <div class="typing-dot" style="animation-delay:0s"></div>
+            <div class="typing-dot" style="animation-delay:0.15s"></div>
+            <div class="typing-dot" style="animation-delay:0.3s"></div>
+          </div>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">Neural processing...</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input class="ai-input" id="ai-input" placeholder="Query neural health intelligence..." type="text"/>
+        <button class="send-btn" id="ai-send">⚡</button>
+      </div>
+    </div>
 
-    <nav id="navbar">
-        <button class="nb on" data-tab="home"><span>⬡</span><span>HOME</span></button>
-        <button class="nb" data-tab="records"><span>◈</span><span>RECORDS</span></button>
-        <button class="nb" data-tab="ai"><span>🧠</span><span>NEURAL</span></button>
-        <button class="nb" data-tab="doctors"><span>◎</span><span>DOCTORS</span></button>
-        <button class="nb" data-tab="schedule"><span>◷</span><span>SCHEDULE</span></button>
-        <button class="nb" data-tab="emergency" style="color:var(--red);"><span>🆘</span><span>SOS</span></button>
-    </nav>
+    <!-- DOCTORS -->
+    <div class="screen" id="screen-doctors">
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--cyan);letter-spacing:0.08em">NEURAL NETWORK</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">AI-MATCHED PHYSICIANS · REAL-TIME AVAILABILITY</div>
+      <input class="search-input" id="doc-search" placeholder="⬡  Search by name or specialty..." type="text"/>
+      <div id="doctors-list"></div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="screen" id="screen-schedule">
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--cyan);letter-spacing:0.08em">APPOINTMENTS</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">SCHEDULE MANAGEMENT · SYNC ENABLED</div>
+      <button class="btn-outline" style="color:var(--cyan);border-color:rgba(0,245,255,0.35);border-style:dashed;padding:16px;font-family:'Orbitron',monospace;font-weight:700;letter-spacing:0.1em;font-size:12px" onclick="showToast('Appointment scheduler coming soon!')">+ NEW APPOINTMENT</button>
+      <div id="appts-list"></div>
+    </div>
+
+    <!-- EMERGENCY -->
+    <div class="screen" id="screen-emergency">
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--red);letter-spacing:0.08em;display:flex;align-items:center;gap:10px">
+        <span style="animation:pulse 1s infinite">🆘</span> EMERGENCY ID
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">CRITICAL DATA · INSTANT ACCESS · ENCRYPTED</div>
+
+      <!-- QR Card -->
+      <div class="card glow-red hero-sos" style="text-align:center">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:0.2em;margin-bottom:16px">⬡ SCAN FOR INSTANT EMERGENCY ACCESS</div>
+        <div class="qr-wrap"><div class="qr-inner"><svg id="qr-svg" width="160" height="160"></svg></div></div>
+        <div style="font-family:'Share Tech Mono',monospace;color:var(--red);font-size:13px;letter-spacing:0.15em">HID-2024-78421</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
+          <div style="background:rgba(0,0,20,0.6);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,51,102,0.2)">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted)">BLOOD TYPE</div>
+            <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--red);margin-top:2px">O+</div>
+          </div>
+          <div style="background:rgba(0,0,20,0.6);border-radius:10px;padding:10px 12px;border:1px solid rgba(0,245,255,0.2)">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted)">PATIENT</div>
+            <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:var(--cyan);margin-top:2px">Alex J.</div>
+          </div>
+          <div style="background:rgba(0,0,20,0.6);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,255,255,0.08)">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted)">DATE OF BIRTH</div>
+            <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--text);margin-top:2px">Jul 14, 1990</div>
+          </div>
+          <div style="background:rgba(0,0,20,0.6);border-radius:10px;padding:10px 12px;border:1px solid rgba(255,255,255,0.08)">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted)">WEIGHT</div>
+            <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--text);margin-top:2px">175 lbs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Allergies -->
+      <div class="card" style="border-color:rgba(255,51,102,0.3)">
+        <div style="font-family:'Orbitron',monospace;font-size:10px;color:var(--red);letter-spacing:0.15em;margin-bottom:10px">⚠ CRITICAL ALLERGIES</div>
+        <div style="display:flex;gap:10px">
+          <div style="padding:10px 18px;border-radius:10px;background:rgba(255,51,102,0.1);border:1px solid rgba(255,51,102,0.3);font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--red)">PENICILLIN</div>
+          <div style="padding:10px 18px;border-radius:10px;background:rgba(255,51,102,0.1);border:1px solid rgba(255,51,102,0.3);font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--red)">PEANUTS</div>
+        </div>
+      </div>
+
+      <!-- Emergency Contact -->
+      <div class="card" style="border-color:rgba(255,179,0,0.3)">
+        <div style="font-family:'Orbitron',monospace;font-size:10px;color:var(--amber);letter-spacing:0.15em;margin-bottom:10px">◎ EMERGENCY CONTACT</div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,179,0,0.1);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">👤</div>
+          <div style="flex:1">
+            <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--text)">Sarah Johnson</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">Spouse</div>
+          </div>
+          <a href="tel:+15550192" style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--amber);text-decoration:none">+1 555 0192</a>
+        </div>
+      </div>
+
+      <!-- Insurance -->
+      <div class="card" style="border-color:rgba(191,95,255,0.3)">
+        <div style="font-family:'Orbitron',monospace;font-size:10px;color:var(--plasma);letter-spacing:0.15em;margin-bottom:10px">◈ INSURANCE DATA</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--text)">BlueCross Shield</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px">Policy: BCX-990234 · Group: GRP-441</div>
+      </div>
+
+      <!-- SOS Button -->
+      <button class="btn-sos" id="sos-btn" onclick="handleSOS()">
+        🔴 SHARE EMERGENCY ID NOW
+      </button>
+    </div>
+
+  </div><!-- end content -->
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <button class="nb active" data-tab="home" onclick="switchTab('home',this)">
+      <span>⬡</span><span class="label">HOME</span>
+    </button>
+    <button class="nb" data-tab="records" onclick="switchTab('records',this)">
+      <span>◈</span><span class="label">RECORDS</span>
+    </button>
+    <button class="nb" data-tab="ai" onclick="switchTab('ai',this)">
+      <span>🧠</span><span class="label">NEURAL</span>
+    </button>
+    <button class="nb" data-tab="doctors" onclick="switchTab('doctors',this)">
+      <span>◎</span><span class="label">DOCTORS</span>
+    </button>
+    <button class="nb" data-tab="schedule" onclick="switchTab('schedule',this)">
+      <span>◷</span><span class="label">SCHEDULE</span>
+    </button>
+    <button class="nb sos" data-tab="emergency" onclick="switchTab('emergency',this)">
+      <span>🆘</span><span class="label">SOS</span>
+    </button>
+  </nav>
 </div>
 
 <script>
-/* ──────────────────────────────────────────────────────────────────
-   CONFIG & INITIALIZATION
-   ────────────────────────────────────────────────────────────────── */
-const CONFIG = {
-    APP_NAME: 'Neural Health ID',
-    DOMAIN: 'www.health-id.in',
-    VERSION: '4.1.0',
-    SALT: 'NHID_v4_' + location.hostname,
-    IS_DEV: false
-};
+/* ═══════════════════════════════════════════════════
+   NEURAL HEALTH ID v5.0 — FULL JS ENGINE
+   Pure vanilla · No dependencies · Spck compatible
+   ═══════════════════════════════════════════════════ */
 
-// ── Neural Canvas Animation ──
+/* ── DATA ── */
+const RECORDS = [
+  {id:1,icon:"🧪",title:"Complete Blood Count",type:"Lab",date:"Nov 15, 2024",doc:"Dr. Patel",status:"NORMAL",color:"#00ff9d"},
+  {id:2,icon:"🩻",title:"Chest X-Ray",type:"Imaging",date:"Sep 3, 2024",doc:"Dr. Chen",status:"CLEAR",color:"#00f5ff"},
+  {id:3,icon:"💊",title:"Lisinopril 10mg",type:"Rx",date:"Oct 20, 2024",doc:"Dr. Martins",status:"ACTIVE",color:"#ffb300"},
+  {id:4,icon:"🧫",title:"Lipid Panel",type:"Lab",date:"Nov 15, 2024",doc:"Dr. Patel",status:"REVIEW",color:"#ff9500"},
+  {id:5,icon:"📋",title:"Annual Physical",type:"Exam",date:"Aug 30, 2024",doc:"Dr. Patel",status:"COMPLETE",color:"#00ff9d"},
+  {id:6,icon:"🫀",title:"ECG Report",type:"Cardio",date:"Jul 12, 2024",doc:"Dr. Martins",status:"NORMAL",color:"#ff3366"},
+];
+
+const DOCTORS = [
+  {id:1,init:"AP",name:"Dr. Aisha Patel",spec:"Primary Care",dist:"0.8 mi",rating:"4.9",avail:"Today 3:00 PM",exp:"15 yrs",color:"#00ff9d"},
+  {id:2,init:"JC",name:"Dr. James Chen",spec:"Radiology",dist:"1.2 mi",rating:"4.7",avail:"Tomorrow 10 AM",exp:"12 yrs",color:"#00f5ff"},
+  {id:3,init:"LM",name:"Dr. Lucia Martins",spec:"Cardiology",dist:"2.1 mi",rating:"4.8",avail:"Mon 2:00 PM",exp:"20 yrs",color:"#bf5fff"},
+  {id:4,init:"OH",name:"Dr. Omar Hassan",spec:"Neurology",dist:"3.4 mi",rating:"4.6",avail:"Tue 11 AM",exp:"18 yrs",color:"#ffb300"},
+];
+
+const APPTS = [
+  {id:1,doc:"Dr. Aisha Patel",spec:"Primary Care",date:"Dec 5, 2024",time:"3:00 PM",status:"CONFIRMED",type:"Follow-up",color:"#00ff9d"},
+  {id:2,doc:"Dr. Lucia Martins",spec:"Cardiology",date:"Dec 12, 2024",time:"10:30 AM",status:"PENDING",type:"Checkup",color:"#ffb300"},
+  {id:3,doc:"Dr. James Chen",spec:"Radiology",date:"Nov 28, 2024",time:"2:00 PM",status:"DONE",type:"Scan",color:"#4a7fa0"},
+];
+
+const AI_SYSTEM = `You are NEURAL — an advanced AI health intelligence system inside a futuristic Health ID app.
+Patient: Alex Johnson, DOB: Jul 14 1990, Blood: O+
+Conditions: Mild Hypertension. Allergies: Penicillin, Peanuts.
+Medications: Lisinopril 10mg. Labs: CBC normal, Lipid Panel under review.
+Vitals: HR 72bpm, BP 118/76, SpO2 98%, Sugar 95mg/dL.
+Speak in a futuristic, intelligent, concise tone. Give real insights but always recommend consulting a doctor. Keep responses to 2-4 sentences. Never start with "I". Use technical but clear language.`;
+
+const SUGGESTIONS = [
+  "Analyze my blood pressure trend",
+  "What does my lipid panel mean?",
+  "Am I at risk for anything?",
+  "Medication interactions?",
+];
+
+/* ── STATE ── */
+let chatHistory = [
+  {role:"assistant",text:"Neural Health AI online. Complete health profile analyzed. Vitals are stable. How can I assist you today?",ts:"NOW"}
+];
+let bookedDocs = [];
+let currentFilter = "ALL";
+let docQuery = "";
+let aiLoading = false;
+let sosActive = false;
+
+/* ── BOOT SEQUENCE ── */
+const BOOT_STEPS = [
+  "INITIALIZING NEURAL CORE...",
+  "LOADING HEALTH DATABASE...",
+  "ENCRYPTING PATIENT DATA...",
+  "CALIBRATING AI MODELS...",
+  "SYSTEM ONLINE ✓"
+];
+
+function buildBootBrain() {
+  const el = document.getElementById('boot-brain-el');
+  el.innerHTML = `
+    <div class="brain-core" style="position:absolute;inset:20%;box-shadow:0 0 25px rgba(0,245,255,0.4)"></div>
+    <div class="brain-emoji" style="font-size:28px;filter:drop-shadow(0 0 10px #00f5ff)">🧠</div>
+  `;
+}
+
+function runBoot() {
+  buildBootBrain();
+  const stepsEl = document.getElementById('boot-steps');
+  const bar = document.getElementById('boot-bar');
+  let step = 0;
+  function next() {
+    stepsEl.innerHTML = BOOT_STEPS.slice(0,step+1).map((s,i)=>`
+      <div class="boot-step ${i===step?'active':'done'}">
+        <span>${i<step?'✓':i===step?'►':'○'}</span> ${s}
+      </div>`).join('');
+    bar.style.width = `${((step+1)/BOOT_STEPS.length)*100}%`;
+    if(step < BOOT_STEPS.length-1) { step++; setTimeout(next, 480); }
+    else setTimeout(()=>{
+      document.getElementById('boot-screen').classList.add('hidden');
+      setTimeout(()=>document.getElementById('boot-screen').remove(),700);
+    },600);
+  }
+  next();
+}
+
+/* ── CANVAS PARTICLES ── */
 function initCanvas() {
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H;
-    const resize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
-    resize(); window.addEventListener('resize', resize);
-    // [Canvas Logic from source omitted for brevity but preserved in production flow]
+  const canvas = document.getElementById('bg-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes=[], frame;
+  const resize = ()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; };
+  resize();
+  window.addEventListener('resize', resize);
+  for(let i=0;i<50;i++) nodes.push({
+    x:Math.random()*1000,y:Math.random()*1000,
+    vx:(Math.random()-0.5)*0.28,vy:(Math.random()-0.5)*0.28,
+    r:Math.random()*1.4+0.4,pulse:Math.random()*Math.PI*2,
+    type:Math.random()>0.7?'plasma':'cyan'
+  });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n=>{
+      n.x+=n.vx; n.y+=n.vy; n.pulse+=0.018;
+      if(n.x<0||n.x>W)n.vx*=-1;
+      if(n.y<0||n.y>H)n.vy*=-1;
+    });
+    nodes.forEach((a,i)=>nodes.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<120){
+        const alpha=(1-d/120)*0.3;
+        const g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+        g.addColorStop(0,`rgba(0,245,255,${alpha})`);
+        g.addColorStop(1,`rgba(191,95,255,${alpha*0.5})`);
+        ctx.strokeStyle=g; ctx.lineWidth=0.5;
+        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+      }
+    }));
+    nodes.forEach(n=>{
+      const glow=Math.sin(n.pulse)*0.5+0.5;
+      const col=n.type==='plasma'?'191,95,255':'0,245,255';
+      const gr=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*4);
+      gr.addColorStop(0,`rgba(${col},${0.85*glow})`);
+      gr.addColorStop(1,`rgba(${col},0)`);
+      ctx.fillStyle=gr;
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r*4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=`rgba(${col},1)`;
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();
+    });
+    frame=requestAnimationFrame(draw);
+  }
+  draw();
 }
 
-// ── Security Center Renderer with SLSA Badge ──
-function renderSecurity() {
-    return `
-    <div class="card glow" style="--ac:var(--neon)">
-        <div style="text-align:center;">
-            <div style="font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--muted);">SECURITY SCORE</div>
-            <div style="font-family:'Orbitron',monospace; font-size:48px; font-weight:900; color:var(--neon);">94</div>
-            <div style="font-family:'Rajdhani',sans-serif; font-size:13px; color:var(--neon);">FORTRESS LEVEL</div>
+/* ── CLOCK ── */
+function startClock(){
+  function tick(){
+    const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const el=document.getElementById('home-time');
+    if(el)el.textContent=t;
+    const ver=document.getElementById('live-time');
+    if(ver)ver.textContent='v5.0 · '+t.slice(0,5)+' · SECURE';
+  }
+  tick();setInterval(tick,1000);
+}
+
+/* ── TAB SWITCHING ── */
+function switchTab(tab,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  const screen=document.getElementById('screen-'+tab);
+  if(screen)screen.classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+/* ── QR GENERATOR ── */
+function buildQR(){
+  const svg=document.getElementById('qr-svg');
+  if(!svg)return;
+  const data='HID-2024-78421-ALEX-JOHNSON-O+';
+  let hash=0;
+  for(let i=0;i<data.length;i++)hash=((hash<<5)-hash)+data.charCodeAt(i);
+  const grid=21,size=160,cell=size/grid;
+  let html=`<rect width="${size}" height="${size}" fill="#020818" rx="8"/>`;
+  const pat=Array.from({length:grid},(_,r)=>Array.from({length:grid},(_,c)=>{
+    if((r<7&&c<7)||(r<7&&c>grid-8)||(r>grid-8&&c<7))return 1;
+    if((r===7&&c<8)||(r<8&&c===7)||(r===7&&c>grid-9)||(r<8&&c===grid-8)||(r>grid-9&&c===7)||(r===grid-8&&c<8))return 1;
+    if(r===6&&c>7&&c<grid-8)return c%2===0?1:0;
+    if(c===6&&r>7&&r<grid-8)return r%2===0?1:0;
+    const seed=(r*grid+c+Math.abs(hash))%7;
+    return seed<3?1:0;
+  }));
+  pat.forEach((row,r)=>row.forEach((v,c)=>{
+    if(v)html+=`<rect x="${c*cell}" y="${r*cell}" width="${cell-0.5}" height="${cell-0.5}" fill="#00f5ff" rx="0.5"/>`;
+  }));
+  html+=`<rect x="${size*0.38}" y="${size*0.38}" width="${size*0.24}" height="${size*0.24}" rx="4" fill="#020818"/>`;
+  html+=`<text x="${size*0.5}" y="${size*0.535}" text-anchor="middle" font-size="${size*0.1}" fill="#00f5ff" font-family="monospace">🧠</text>`;
+  svg.innerHTML=html;
+}
+
+/* ── RECORDS ── */
+function buildRecords(){
+  const types=['ALL','Lab','Imaging','Rx','Exam','Cardio'];
+  const filtersEl=document.getElementById('records-filters');
+  const listEl=document.getElementById('records-list');
+  if(!filtersEl||!listEl)return;
+  filtersEl.innerHTML=types.map(t=>`
+    <button class="filter-btn ${t===currentFilter?'active':''}" onclick="setFilter('${t}')">${t}</button>
+  `).join('');
+  const filtered=currentFilter==='ALL'?RECORDS:RECORDS.filter(r=>r.type===currentFilter);
+  listEl.innerHTML=filtered.map(r=>`
+    <div class="card" style="margin-bottom:12px;border-color:${r.color}33;padding:16px;animation:slideIn 0.35s ease both">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:44px;height:44px;border-radius:12px;background:${r.color}18;border:1px solid ${r.color}33;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${r.icon}</div>
+        <div style="flex:1">
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;color:var(--text)">${r.title}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px">${r.doc} · ${r.date}</div>
         </div>
-        
-        <div style="margin-top:14px; padding:10px; border-radius:12px; background:rgba(0,255,157,0.08); border:1px solid rgba(0,255,157,0.3); display:flex; align-items:center; gap:10px;">
-            <span style="font-size:18px;">🛡️</span>
-            <div style="flex:1;">
-                <div style="font-family:'Orbitron',monospace; font-size:9px; font-weight:700; color:var(--neon); letter-spacing:0.1em;">SLSA LEVEL 3 VERIFIED</div>
-                <div style="font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--muted);">TAMPER-PROOF CI/CD PIPELINE ACTIVE</div>
-            </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="badge" style="background:${r.color}18;color:${r.color};border:1px solid ${r.color}44">${r.status}</span>
+          <span class="badge" style="background:rgba(74,127,160,0.15);color:var(--muted);border:1px solid rgba(74,127,160,0.3)">${r.type}</span>
         </div>
-    </div>
-    `;
+      </div>
+    </div>`).join('');
 }
 
-// ── Boot Sequence ──
-function showBoot() {
-    console.log("SYSTEM BOOTING...");
-    // Initializing encrypted components
+function setFilter(f){
+  currentFilter=f;buildRecords();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initCanvas();
-    showBoot();
-    // Injected Home Screen by default
+/* ── DOCTORS ── */
+function buildDoctors(){
+  const listEl=document.getElementById('doctors-list');
+  if(!listEl)return;
+  const q=docQuery.toLowerCase();
+  const filtered=DOCTORS.filter(d=>d.name.toLowerCase().includes(q)||d.spec.toLowerCase().includes(q));
+  listEl.innerHTML=filtered.map(d=>`
+    <div class="card" style="margin-bottom:12px;border-color:${d.color}33;padding:16px;animation:slideIn 0.35s ease both">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div class="doc-avatar" style="border-color:${d.color};background:linear-gradient(135deg,${d.color}22,${d.color}0d);color:${d.color}">${d.init}</div>
+        <div style="flex:1">
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--text)">${d.name}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${d.spec} · ${d.exp} exp</div>
+          <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber)">★ ${d.rating}</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">📍 ${d.dist}</span>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon)">◎ ${d.avail}</span>
+          </div>
+        </div>
+        <button class="btn-book ${bookedDocs.includes(d.id)?'booked':''}" onclick="toggleBook(${d.id},this)">
+          ${bookedDocs.includes(d.id)?'✓ BOOKED':'BOOK'}
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleBook(id,btn){
+  if(bookedDocs.includes(id)){
+    bookedDocs=bookedDocs.filter(x=>x!==id);
+    btn.textContent='BOOK'; btn.classList.remove('booked');
+    showToast('Appointment cancelled');
+  } else {
+    bookedDocs.push(id);
+    btn.textContent='✓ BOOKED'; btn.classList.add('booked');
+    showToast('✓ Appointment booked!');
+  }
+}
+
+/* ── APPOINTMENTS ── */
+function buildAppts(){
+  const listEl=document.getElementById('appts-list');
+  if(!listEl)return;
+  const statusColor={CONFIRMED:'#00ff9d',PENDING:'#ffb300',DONE:'#4a7fa0'};
+  listEl.innerHTML=APPTS.map(a=>`
+    <div class="card" style="margin-bottom:12px;border-color:${statusColor[a.status]}44;animation:slideIn 0.35s ease both">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;color:var(--text)">${a.doc}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">${a.spec} · ${a.type}</div>
+        </div>
+        <span class="badge" style="background:${statusColor[a.status]}18;color:${statusColor[a.status]};border:1px solid ${statusColor[a.status]}44">${a.status}</span>
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:${a.status!=='DONE'?14:0}px">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--cyan)">📅 ${a.date}</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--cyan)">⏱ ${a.time}</span>
+      </div>
+      ${a.status!=='DONE'?`
+      <div style="display:flex;gap:8px">
+        <button class="btn-outline" style="flex:1;padding:8px;font-size:11px" onclick="showToast('Reschedule coming soon!')">RESCHEDULE</button>
+        <button class="btn-primary" style="flex:2;padding:8px;font-size:11px" onclick="showToast('Viewing appointment details...')">VIEW DETAILS</button>
+      </div>`:''}
+    </div>`).join('');
+}
+
+/* ── AI CHAT ── */
+function buildAI(){
+  const sugEl=document.getElementById('ai-suggestions');
+  if(sugEl) sugEl.innerHTML=SUGGESTIONS.map(s=>`<div class="chip" onclick="fillInput('${s}')">${s}</div>`).join('');
+  renderChat();
+}
+
+function fillInput(text){
+  const inp=document.getElementById('ai-input');
+  if(inp){inp.value=text;inp.focus();}
+}
+
+function renderChat(){
+  const el=document.getElementById('chat-messages');
+  if(!el)return;
+  el.innerHTML=chatHistory.map(m=>`
+    <div class="chat-msg ${m.role==='user'?'user':'ai'}">
+      ${m.role==='assistant'?`
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 6px var(--neon)"></div>
+        <span style="font-family:'Orbitron',monospace;font-size:9px;color:var(--neon);letter-spacing:0.1em">NEURAL · ${m.ts}</span>
+      </div>`:''}
+      <div class="chat-bubble ${m.role==='user'?'user':'ai'}">${m.text}</div>
+      ${m.role==='user'?`<div class="chat-meta">YOU · ${m.ts}</div>`:''}
+    </div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+async function sendMessage(){
+  const inp=document.getElementById('ai-input');
+  const text=inp?inp.value.trim():'';
+  if(!text||aiLoading)return;
+  const ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  chatHistory.push({role:'user',text,ts});
+  inp.value='';
+  renderChat();
+  aiLoading=true;
+  const sendBtn=document.getElementById('ai-send');
+  if(sendBtn){sendBtn.disabled=true;sendBtn.innerHTML='<span style="animation:pulse 1s infinite">⟳</span>';}
+  const typingEl=document.getElementById('typing-indicator');
+  if(typingEl)typingEl.style.display='flex';
+  try{
+    const msgs=chatHistory.slice(-10).filter(m=>m.role!=='system').map(m=>({role:m.role,content:m.text}));
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        system:AI_SYSTEM,
+        messages:msgs,
+      })
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Neural link disrupted. Reconnecting...';
+    const rts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    chatHistory.push({role:'assistant',text:reply,ts:rts});
+  } catch(e){
+    const rts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    chatHistory.push({role:'assistant',text:'Neural link disrupted. Check your connection and retry.',ts:rts});
+  }
+  if(typingEl)typingEl.style.display='none';
+  if(sendBtn){sendBtn.disabled=false;sendBtn.innerHTML='⚡';}
+  aiLoading=false;
+  renderChat();
+}
+
+/* ── SOS ── */
+function handleSOS(){
+  const btn=document.getElementById('sos-btn');
+  sosActive=!sosActive;
+  if(sosActive){
+    btn.textContent='✓ EMERGENCY ID TRANSMITTED';
+    btn.classList.add('sent');
+    showToast('🚨 Emergency ID transmitted!');
+  } else {
+    btn.innerHTML='🔴 SHARE EMERGENCY ID NOW';
+    btn.classList.remove('sent');
+  }
+}
+
+/* ── DOC SEARCH ── */
+function initDocSearch(){
+  const inp=document.getElementById('doc-search');
+  if(!inp)return;
+  inp.addEventListener('input',e=>{docQuery=e.target.value;buildDoctors();});
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Boot
+  runBoot();
+  // Canvas
+  initCanvas();
+  // Clock
+  startClock();
+  // QR
+  buildQR();
+  // Records
+  buildRecords();
+  // AI
+  buildAI();
+  // Doctors
+  buildDoctors();
+  initDocSearch();
+  // Appointments
+  buildAppts();
+
+  // AI input handlers
+  const aiInput=document.getElementById('ai-input');
+  const aiSend=document.getElementById('ai-send');
+  if(aiInput) aiInput.addEventListener('keydown',e=>{ if(e.key==='Enter')sendMessage(); });
+  if(aiSend) aiSend.addEventListener('click',sendMessage);
 });
 </script>
 </body>
