@@ -1,0 +1,4 @@
+"scripts": {
+  "build": "vite build --minify esbuild",
+  "preview": "vite preview"
+}
