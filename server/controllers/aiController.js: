@@ -1,0 +1,19 @@
+// Speech-to-Analysis Logic
+exports.analyzeVoiceSymptom = async (req, res) => {
+  const { transcript, userId } = req.body;
+
+  // AI Analysis Logic (Simulated)
+  const urgencyKeywords = ['chest pain', 'dizzy', 'fainting', 'cannot breathe'];
+  const isUrgent = urgencyKeywords.some(keyword => transcript.toLowerCase().includes(keyword));
+
+  if (isUrgent) {
+    // TRIGGER IMMEDIATE ESCALATION (Bypassing the 15-min timer)
+    await triggerEmergencyProtocol(userId);
+    return res.json({ 
+      status: "CRITICAL", 
+      message: "Emergency detected. Guardian notified instantly." 
+    });
+  }
+
+  res.json({ status: "STABLE", message: "Symptom logged in Medical Vault." });
+};
