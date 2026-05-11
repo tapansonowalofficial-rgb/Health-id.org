@@ -1,0 +1,44 @@
+const OnboardingSteps = [
+  { title: "Smart Scan", desc: "Instantly parse any medical document via OCR." },
+  { title: "The Guardian", desc: "Parents are alerted if you miss your dose." },
+  { title: "AI Oracle", desc: "Expert medical research at your fingertips." }
+];
+
+export function WelcomeSequence({ onComplete }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center p-10 text-center"
+    >
+      <motion.div 
+        initial={{ y: 20 }}
+        animate={{ y: 0 }}
+        transition={{ staggerChildren: 0.3 }}
+        className="space-y-8"
+      >
+        {OnboardingSteps.map((step, i) => (
+          <motion.div 
+            key={i} 
+            initial={{ opacity: 0, x: -20 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ delay: i * 0.5 }}
+          >
+            <h3 className="text-cyan-400 font-bold uppercase tracking-widest text-xs mb-1">{step.title}</h3>
+            <p className="text-white text-lg font-light tracking-tight">{step.desc}</p>
+          </motion.div>
+        ))}
+        
+        <motion.button 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ delay: 2 }}
+          onClick={onComplete}
+          className="mt-12 px-10 py-4 border border-cyan-500/50 text-cyan-400 rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-cyan-500 hover:text-black transition-all"
+        >
+          Initialize System
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+}
