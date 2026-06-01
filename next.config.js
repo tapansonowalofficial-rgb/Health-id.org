@@ -2,73 +2,46 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  compress: true,
-  poweredByHeader: false,
-  generateEtags: true,
-  pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  
-  // Security headers
+
+  // Security headers for every response
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: '/(.*)',
         headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            value: 'camera=(), microphone=(), geolocation=(self)',
           },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload'
-          }
-        ]
-      }
-    ]
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https:",
+              "connect-src 'self' https://*.supabase.co https://api.anthropic.com https://api.msg91.com",
+              "frame-ancestors 'none'",
+            ].join('; '),
+          },
+        ],
+      },
+    ];
   },
 
-  // Environment variables
-  env: {
-    NEXT_PUBLIC_APP_NAME: 'Neural Health ID',
-    NEXT_PUBLIC_APP_VERSION: '5.0.0',
-    NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN || 'health-id.in'
-  },
-
-  // Image optimization
-  images: {
-    domains: ['avatars.githubusercontent.com'],
-    formats: ['image/avif', 'image/webp']
-  },
-
-  // Redirects for SEO
+  // Redirect http to https in production
   async redirects() {
-    return [
-      {
-        source: '/health-id.in',
-        destination: '/',
-        permanent: true
-      }
-    ]
-  }
+    return [];
+  },
 };
 
 module.exports = nextConfig;
